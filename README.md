@@ -2,10 +2,10 @@
 
 <div style="display: flex; gap: 10px;">
   <a href="screenshots/home.png" data-lightbox="kos">
-    <img src="screenshots/home.png" width="450"/>
+    <img src="screenshots/home.png" width="400"/>
   </a>
   <a href="screenshots/apps.png" data-lightbox="kos">
-    <img src="screenshots/apps.png" width="450"/>
+    <img src="screenshots/apps.png" width="400"/>
   </a>
 </div>
 
