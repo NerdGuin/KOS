@@ -1,9 +1,11 @@
 # KOS - OPERATING SYSTEM
 
-<div style="display: flex; gap: 10px;">
-  <img src="screenshots/home.png" alt="Screen Home" width="400"/>
-  <img src="screenshots/apps.png" alt="Screen Apps" width="400"/>
-</div>
+<a href="screenshots/home.png" data-lightbox="kos">
+  <img src="screenshots/home.png" width="500"/>
+</a>
+<a href="screenshots/apps.png" data-lightbox="kos">
+  <img src="screenshots/apps.png" width="500"/>
+</a>
 
 ## Português (PT-BR)
 
