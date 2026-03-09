@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+
+    <link rel="stylesheet" href="/static/index.css" />
+    <link rel="stylesheet" href="/static/header.css" />
+    <link rel="stylesheet" href="/static/apps.css" />
+    <title>KOS v0.1</title>
+  </head>
+
+  <body>
+    <div class="header">
+      <span
+        class="hour"
+        id="hourBtn"
+        onclick="openApp('com.android.settings')"
+      ></span>
+      <div class="signal">
+        <span
+          class="symbols-outlined"
+          onclick="openApp('com.android.bluetooth')"
+          >bluetooth</span
+        >
+        <span class="symbols-outlined" onclick="openApp('com.android.wifi')"
+          >wifi</span
+        >
+      </div>
+    </div>
+
+    <div class="window">
+      <div class="page home">
+        <p>Tela Inicial</p>
+      </div>
+
+      <div class="page apps" id="apps-container">
+        <div class="app">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" />
+          <p>Youtube</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="footer"></div> -->
+  </body>
+
+  <script>
+    function openApp(pkg) {
+      fetch(`/open/${pkg}`);
+    }
+
+    function closeApp(pkg) {
+      fetch(`/close/${pkg}`);
+    }
+  </script>
+
+  <script>
+    const windowEl = document.querySelector(".window");
+    let startX = 0;
+    let startY = 0;
+    let isHorizontal = null;
+    let currentPage = 0;
+    const totalPages = 2;
+
+    function startGesture(x, y) {
+      startX = x;
+      startY = y;
+      isHorizontal = null;
+    }
+
+    function moveGesture(x, y, e) {
+      const dx = x - startX;
+      const dy = y - startY;
+
+      if (isHorizontal === null) {
+        isHorizontal = Math.abs(dx) > Math.abs(dy);
+      }
+
+      if (!isHorizontal) return;
+      e.preventDefault();
+
+      windowEl.style.transform = `translateX(${
+        -currentPage * 100 + (dx / window.innerWidth) * 100
+      }%)`;
+    }
+
+    function endGesture(x) {
+      if (!isHorizontal) return;
+
+      const dx = x - startX;
+      if (dx > 50 && currentPage > 0) currentPage--;
+      if (dx < -50 && currentPage < totalPages - 1) currentPage++;
+
+      windowEl.style.transition = "transform .3s ease";
+      windowEl.style.transform = `translateX(${-currentPage * 100}%)`;
+
+      setTimeout(() => (windowEl.style.transition = ""), 300);
+    }
+
+    // --- EVENTOS TOUCH & MOUSE ---
+    let isPointerDown = false;
+
+    windowEl.addEventListener("pointerdown", (e) => {
+      isPointerDown = true;
+      startGesture(e.clientX, e.clientY);
+    });
+
+    windowEl.addEventListener("pointermove", (e) => {
+      if (!isPointerDown) return;
+      moveGesture(e.clientX, e.clientY, e);
+    });
+
+    windowEl.addEventListener("pointerup", (e) => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      endGesture(e.clientX);
+    });
+
+    windowEl.addEventListener("pointerleave", (e) => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      endGesture(e.clientX);
+    });
+  </script>
+
+  <script>
+    function atualizarHora() {
+      const formatter = new Intl.DateTimeFormat("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+
+      const parts = formatter.formatToParts(new Date());
+      const hours = parts.find((p) => p.type === "hour").value;
+      const minutes = parts.find((p) => p.type === "minute").value;
+
+      document.querySelector(".hour").textContent = `${hours}:${minutes}`;
+    }
+
+    atualizarHora();
+    setInterval(atualizarHora, 1000);
+  </script>
+</html>
