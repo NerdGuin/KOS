@@ -36,6 +36,12 @@ if [ ! -d "$PROJECT_DIR" ]; then
 else
     echo "Buscando atualizações"
     cd "$PROJECT_DIR"
+
+    if ! git diff-index --quiet HEAD --; then
+        echo "Descartando alterações locais..."
+        git reset --hard
+    fi
+
     git fetch origin
     LOCAL=$(git rev-parse @)
     REMOTE=$(git rev-parse @{u})
