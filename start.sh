@@ -29,15 +29,6 @@ pkill -f "chromium" 2>/dev/null
 sleep 2
 
 # --------------------------------------
-# 1. INICIAR WESTON
-# --------------------------------------
-if ! pgrep -x weston >/dev/null; then
-    export XDG_RUNTIME_DIR=/run/user/$(id -u)
-    weston &
-    sleep 3
-fi
-
-# --------------------------------------
 # 2. ATUALIZAR PROJETO VIA GIT
 # --------------------------------------
 if [ ! -d "$PROJECT_DIR" ]; then
@@ -123,4 +114,6 @@ chromium \
 --disable-pinch \
 --overscroll-history-navigation=0 \
 --lang=pt-BR \
+--disable-dev-shm-usage \
+--no-sandbox \
 --app=http://localhost:$FRONTEND_PORT &
