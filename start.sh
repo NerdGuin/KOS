@@ -80,6 +80,9 @@ if [ ! -d "$VENV_DIR" ]; then
     pip install -r requirements.txt
 else
     source "$VENV_DIR/bin/activate"
+    pip install --upgrade uvicorn
+    pip install --upgrade fastapi
+    pip install --upgrade pip
 fi
 
 # --------------------------------------
