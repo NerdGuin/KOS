@@ -75,15 +75,17 @@ if [ ! -d "$VENV_DIR" ]; then
     echo "Criando ambiente virtual..."
     python3 -m venv "$VENV_DIR"
     source "$VENV_DIR/bin/activate"
-    pip install --upgrade uvicorn
-    pip install --upgrade fastapi
-    pip install --upgrade pip
+    pip install uvicorn
+    pip install fastapi
+    pip install requests
+    pip install pip
     pip install -r requirements.txt
 else
     source "$VENV_DIR/bin/activate"
-    pip install --upgrade uvicorn
-    pip install --upgrade fastapi
-    pip install --upgrade pip
+    pip install uvicorn
+    pip install fastapi
+    pip install requests
+    pip install pip
 fi
 
 # --------------------------------------
