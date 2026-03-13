@@ -7,10 +7,13 @@ BASE_DIR="$HOME/kos"
 PROJECT_DIR="$BASE_DIR/src/backend"
 FRONTEND_DIR="$BASE_DIR/src/frontend"
 VENV_DIR="$PROJECT_DIR/venv"
+NVM_DIR="$HOME/.nvm"
 XDG_RUNTIME_DIR=/run/user/1000
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 BACKEND_PORT=8000
 FRONTEND_PORT=5173
+
+source "$NVM_DIR/nvm.sh"
 
 # --------------------------------------
 # 0. ENCERRAR PROCESSOS ANTIGOS
