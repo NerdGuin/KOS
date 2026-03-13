@@ -49,6 +49,8 @@ else
     if [ "$LOCAL" != "$REMOTE" ]; then
         echo "Nova versão disponível. Atualizando..."
         git pull
+        chmod +x start.sh
+        exec ./start.sh
     else
         echo "Última versão já está instalada!"
     fi
