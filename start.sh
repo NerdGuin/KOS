@@ -32,6 +32,7 @@ sleep 2
 # 1. INICIAR WESTON
 # --------------------------------------
 if ! pgrep -x weston >/dev/null; then
+    export XDG_RUNTIME_DIR=/run/user/$(id -u)
     weston &
     sleep 3
 fi
