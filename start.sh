@@ -3,8 +3,9 @@
 # --------------------------------------
 # CONFIGURAÇÕES
 # --------------------------------------
-PROJECT_DIR="$HOME/kos/src/backend"
-FRONTEND_DIR="$HOME/kos/src/frontend"
+BASE_DIR="$HOME/kos"
+PROJECT_DIR="$BASE_DIR/src/backend"
+FRONTEND_DIR="$BASE_DIR/src/frontend"
 VENV_DIR="$PROJECT_DIR/venv"
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 BACKEND_PORT=8000
@@ -45,10 +46,9 @@ if [ ! -d "$PROJECT_DIR" ]; then
 else
     echo "Buscando atualizações"
     cd "$PROJECT_DIR"
-    chmod +x "$PROJECT_DIR/start.sh"
+    chmod +x "$BASE_DIR/start.sh"
 
     if ! git diff-index --quiet HEAD --; then
-        echo "Descartando alterações locais..."
         git reset --hard
     fi
 
@@ -59,7 +59,7 @@ else
     if [ "$LOCAL" != "$REMOTE" ]; then
         echo "Nova versão disponível. Atualizando..."
         git pull
-        exec ./start.sh
+        exec "$BASE_DIR/start.sh"
     else
         echo "Última versão já está instalada!"
     fi
