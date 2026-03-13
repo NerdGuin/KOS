@@ -45,7 +45,7 @@ if [ ! -d "$PROJECT_DIR" ]; then
 else
     echo "Buscando atualizações"
     cd "$PROJECT_DIR"
-    chmod +x ./start.sh
+    chmod +x "$PROJECT_DIR/start.sh"
 
     if ! git diff-index --quiet HEAD --; then
         echo "Descartando alterações locais..."
@@ -75,6 +75,7 @@ if [ ! -d "$VENV_DIR" ]; then
     python3 -m venv "$VENV_DIR"
     source "$VENV_DIR/bin/activate"
     pip install --upgrade uvicorn
+    pip install --upgrade fastapi
     pip install --upgrade pip
     pip install -r requirements.txt
 else
