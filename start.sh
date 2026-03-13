@@ -13,9 +13,18 @@ FRONTEND_PORT=5173
 # --------------------------------------
 # 0. ENCERRAR PROCESSOS ANTIGOS
 # --------------------------------------
+# Backend
 pkill -f "uvicorn main:app" 2>/dev/null
-pkill -f "npm" 2>/dev/null
+
+# Frontend
+pkill -f "npm run dev" 2>/dev/null
+pkill -f "vite" 2>/dev/null
+
+# Chromium
 pkill -f "chromium" 2>/dev/null
+
+# Aguarda garantir que todos foram finalizados
+sleep 2
 
 # --------------------------------------
 # 1. INICIAR WESTON
