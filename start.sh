@@ -46,7 +46,7 @@ if [ ! -d "$PROJECT_DIR" ]; then
 else
     echo "Buscando atualizações"
     cd "$PROJECT_DIR"
-    chmod +x "$BASE_DIR/start.sh"
+    chmod +x "$BASE_DIR/start.sh" 2>/dev/null
 
     if ! git diff-index --quiet HEAD --; then
         git reset --hard
@@ -59,7 +59,8 @@ else
     if [ "$LOCAL" != "$REMOTE" ]; then
         echo "Nova versão disponível. Atualizando..."
         git pull
-        exec "$BASE_DIR/start.sh"
+        nohup "$BASE_DIR/start.sh" >/dev/null 2>&1 &
+        exit 0
     else
         echo "Última versão já está instalada!"
     fi
