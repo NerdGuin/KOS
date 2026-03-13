@@ -122,4 +122,5 @@ chromium \
 --disable-features=TranslateUI \
 --disable-pinch \
 --overscroll-history-navigation=0 \
+--lang=pt-BR \
 --app=http://localhost:$FRONTEND_PORT &
