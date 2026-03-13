@@ -55,10 +55,19 @@ else
 fi
 
 # --------------------------------------
-# 3. ATIVAR VENV DO BACKEND
+# 3. CRIAR E ATIVAR VENV DO BACKEND
 # --------------------------------------
 cd "$PROJECT_DIR"
-source "$VENV_DIR/bin/activate"
+
+if [ ! -d "$VENV_DIR" ]; then
+    echo "Criando ambiente virtual..."
+    python3 -m venv "$VENV_DIR"
+    source "$VENV_DIR/bin/activate"
+    pip install --upgrade pip
+    pip install -r requirements.txt
+else
+    source "$VENV_DIR/bin/activate"
+fi
 
 # --------------------------------------
 # 4. INICIAR SERVIDOR FASTAPI
