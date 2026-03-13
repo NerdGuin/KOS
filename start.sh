@@ -7,6 +7,7 @@ BASE_DIR="$HOME/kos"
 PROJECT_DIR="$BASE_DIR/src/backend"
 FRONTEND_DIR="$BASE_DIR/src/frontend"
 VENV_DIR="$PROJECT_DIR/venv"
+XDG_RUNTIME_DIR=/run/user/1000
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 BACKEND_PORT=8000
 FRONTEND_PORT=5173
@@ -31,10 +32,8 @@ sleep 2
 # 1. INICIAR WESTON
 # --------------------------------------
 if ! pgrep -x weston >/dev/null; then
-    weston-launch &
-    sleep 2
-else
-    echo "Weston já está rodando."
+    weston &
+    sleep 3
 fi
 
 # --------------------------------------
