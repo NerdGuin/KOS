@@ -32,8 +32,8 @@
 }
 
 .app-icon-wrapper {
-  width: 180px;
-  height: 180px;
+  width: clamp(90px, 12vw, 180px);
+  height: clamp(90px, 12vw, 180px);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
@@ -71,7 +71,7 @@
 }
 
 .app-icon {
-  font-size: 70px;
+  font-size: clamp(32px, 5vw, 70px);
   color: #fff;
   z-index: 2;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -80,7 +80,7 @@
 
 .app-label {
   font-family: 'AlibabaSans-Medium';
-  font-size: 24px;
+  font-size: clamp(14px, 2vw, 24px);
   color: #e0e0e0;
   text-align: center;
   letter-spacing: 0.5px;

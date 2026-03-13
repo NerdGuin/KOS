@@ -12,7 +12,7 @@ REM inicia FastAPI
 START "" python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 
 REM inicia React/Vite
-START "" cmd /k "cd /d %FRONTEND_DIR% && npm run dev"
+START "" cmd /k "cd /d %FRONTEND_DIR% && npm run dev -- --host"
 
 TIMEOUT /T 3 /NOBREAK > NUL
 
