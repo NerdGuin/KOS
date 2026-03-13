@@ -3,21 +3,24 @@
 # --------------------------------------
 # CONFIGURAÇÕES
 # --------------------------------------
-PROJECT_DIR="$HOME/kos"
+PROJECT_DIR="$HOME/kos/src/backend"
+FRONTEND_DIR="$HOME/kos/src/frontend"
+VENV_DIR="$PROJECT_DIR/venv"
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
-PORT=8000
+BACKEND_PORT=8000
+FRONTEND_PORT=5173
 
 # --------------------------------------
 # 0. ENCERRAR PROCESSOS ANTIGOS
 # --------------------------------------
 pkill -f "uvicorn main:app" 2>/dev/null
+pkill -f "npm" 2>/dev/null
 pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
 # 1. INICIAR WESTON
 # --------------------------------------
 if ! pgrep -x weston >/dev/null; then
-    echo "Iniciando Weston"
     weston-launch &
     sleep 2
 else
@@ -29,7 +32,7 @@ fi
 # --------------------------------------
 if [ ! -d "$PROJECT_DIR" ]; then
     echo "Baixando arquivos"
-    git clone "$GIT_REPO" "$PROJECT_DIR"
+    git clone "$GIT_REPO" "$HOME/kos"
 else
     echo "Buscando atualizações"
     cd "$PROJECT_DIR"
@@ -46,18 +49,31 @@ else
 fi
 
 # --------------------------------------
-# 3. INICIAR SERVIDOR WEB
+# 3. ATIVAR VENV DO BACKEND
 # --------------------------------------
-echo "Iniciando servidor"
 cd "$PROJECT_DIR"
-# source venv/bin/activate # ATIVA AMBIENTE VIRTUAL
-
-uvicorn main:app --host 0.0.0.0 --port $PORT --reload &
-
-sleep 3
+source "$VENV_DIR/bin/activate"
 
 # --------------------------------------
-# 4. ABRIR CHROMIUM EM MODO KIOSK
+# 4. INICIAR SERVIDOR FASTAPI
 # --------------------------------------
-echo "Abrindo interface"
-chromium --ozone-platform=wayland --kiosk http://localhost:$PORT
+uvicorn main:app --host 127.0.0.1 --port $BACKEND_PORT --reload &
+echo "Backend iniciado em http://127.0.0.1:$BACKEND_PORT"
+
+# --------------------------------------
+# 5. INICIAR FRONTEND REACT/VITE
+# --------------------------------------
+cd "$FRONTEND_DIR"
+npm install 2>/dev/null  # garante que pacotes estejam instalados
+npm run dev -- --host &
+echo "Frontend iniciado em http://127.0.0.1:$FRONTEND_PORT"
+
+# --------------------------------------
+# 6. ESPERAR SERVIDORES INICIAR
+# --------------------------------------
+sleep 5
+
+# --------------------------------------
+# 7. ABRIR CHROMIUM EM MODO KIOSK
+# --------------------------------------
+chromium --ozone-platform=wayland --kiosk http://localhost:$FRONTEND_PORT &
