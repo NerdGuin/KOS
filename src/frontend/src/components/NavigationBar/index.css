@@ -1,0 +1,59 @@
+/* Bottom Controls */
+.bottom-bar {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  padding-bottom: 20px;
+}
+
+.control-dock {
+  display: flex;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 40px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.control-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.control-btn:hover,
+.control-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.control-btn i {
+  font-size: 24px;
+  height: auto;
+}
+
+/* Tooltip */
+.control-btn span {
+  font-size: 12px;
+  font-family: 'MiSans-Medium';
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s;
+  position: absolute;
+  bottom: -20px;
+  white-space: nowrap;
+}
+.control-btn:hover span {
+  opacity: 1;
+  transform: translateY(0);
+}

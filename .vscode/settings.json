@@ -2,8 +2,16 @@
     "files.exclude": {
         ".vscode": true,
         ".gitignore": true,
-        "src/venv": true,
-        "src/__pycache__": true,
-        "start.sh": true
+        "start.sh": true,
+        "start.bat": true,
+        ".prettier*": true,
+        "src/frontend/tsconfig*": true,
+        "src/frontend/eslint*": true,
+        "src/frontend/package*": true,
+        "src/frontend/vite*": true,
+        "src/frontend/node_modules": true,
+        "src/backend/venv": true,
+        "src/backend/__pycache__": true,
+        "src/frontend/.gitignore": true,
     }
 }

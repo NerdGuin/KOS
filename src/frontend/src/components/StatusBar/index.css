@@ -1,0 +1,75 @@
+/* Status Bar */
+.status-bar {
+  height: 80px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+  align-items: center;
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: fit-content;
+}
+
+.brand-icon {
+  font-size: 32px;
+  color: #fff;
+}
+
+.brand-text {
+  font-family: 'AlibabaSans-Bold';
+  font-size: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #e0e0e0;
+}
+
+.brand-accent {
+  color: #ff4500;
+}
+
+.status-info {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  height: fit-content;
+}
+
+.time {
+  font-size: 28px;
+  letter-spacing: 1px;
+  font-family: 'MiSans-Bold';
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-icons i {
+  font-size: 20px;
+  color: #ccc;
+}
+
+.battery-level {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.model-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: 'MiSans-Medium';
+  color: #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 1px;
+}

@@ -1,0 +1,20 @@
+/* Widget Area */
+.widget-area {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  opacity: 0.8;
+  height: auto;
+}
+
+.temp-display {
+  font-family: 'AlibabaSans-Bold';
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #aaa;
+}
