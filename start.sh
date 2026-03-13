@@ -110,4 +110,16 @@ sleep 5
 # --------------------------------------
 # 7. ABRIR CHROMIUM EM MODO KIOSK
 # --------------------------------------
-chromium --ozone-platform=wayland --kiosk http://localhost:$FRONTEND_PORT &
+chromium \
+--ozone-platform=wayland \
+--enable-features=UseOzonePlatform \
+--kiosk \
+--start-fullscreen \
+--no-first-run \
+--disable-infobars \
+--disable-session-crashed-bubble \
+--disable-translate \
+--disable-features=TranslateUI \
+--disable-pinch \
+--overscroll-history-navigation=0 \
+--app=http://localhost:$FRONTEND_PORT &
