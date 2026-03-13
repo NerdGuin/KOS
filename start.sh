@@ -81,16 +81,16 @@ if [ ! -d "$VENV_DIR" ]; then
     pip install -r requirements.txt
 else
     source "$VENV_DIR/bin/activate"
-    pip install uvicorn
-    pip install fastapi
-    pip install requests
-    pip install pip
+    python3 -c "import fastapi" 2>/dev/null || pip install fastapi
+    python3 -c "import uvicorn" 2>/dev/null || pip install uvicorn
+    python3 -c "import requests" 2>/dev/null || pip install requests
+    python3 -c "import pip" 2>/dev/null || pip install pip
 fi
 
 # --------------------------------------
 # 4. INICIAR SERVIDOR FASTAPI
 # --------------------------------------
-uvicorn main:app --host 127.0.0.1 --port $BACKEND_PORT --reload &
+$VENV_DIR/bin/uvicorn main:app --host 127.0.0.1 --port $BACKEND_PORT --reload &
 echo "Backend iniciado em http://127.0.0.1:$BACKEND_PORT"
 
 # --------------------------------------
