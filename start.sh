@@ -59,6 +59,7 @@ else
         echo "Nova versão disponível. Atualizando..."
         git pull
         chmod +x "$BASE_DIR/start.sh" 2>/dev/null
+        chmod +x "$BASE_DIR/kos.service" 2>/dev/null
         exit 0
     else
         echo "Última versão já está instalada!"
