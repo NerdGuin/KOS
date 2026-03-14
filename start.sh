@@ -120,6 +120,7 @@ cd "$FRONTEND_DIR"
 
 echo "Instalando dependências do frontend..."
 npm install >/dev/null 2>&1
+npm install -g serve >/dev/null 2>&1
 
 echo "Gerando build de produção..."
 npm run build >/dev/null 2>&1
