@@ -1,4 +1,4 @@
-import { useState, memo } from 'react'
+import { useState } from 'react'
 import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
@@ -12,8 +12,6 @@ interface AppItem {
   favorite: boolean
   window?: string
 }
-
-const DashboardMemo = memo(Dashboard)
 
 function App() {
   const [activePage, setActivePage] = useState<null | string>(null)
