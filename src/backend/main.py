@@ -80,36 +80,15 @@ def get_wireless_status():
         status["bluetooth_connected"] = False
         return status
 
-# ---- CONFIG TELA 1024x600 ----
-ANDROID_X = 200
-ANDROID_Y = 0
-ANDROID_W = 824
-ANDROID_H = 600
-
-def move_android_window():
-    if sys.platform.startswith("linux"):
-        import subprocess
-        time.sleep(2)
-        subprocess.run([
-            "wmctrl", "-r", "Waydroid",
-            "-e", f"0,{ANDROID_X},{ANDROID_Y},{ANDROID_W},{ANDROID_H}"
-        ])
-    else:
-        pass
-
 @app.get("/open/{package}")
 def open_app(package: str):
     if sys.platform.startswith("linux"):
         import subprocess
-
         subprocess.Popen(["waydroid", "app", "launch", package])
-
-        subprocess.run(["waydroid", "window", "move", "0", "0"])
-        subprocess.run(["waydroid", "window", "resize", "1080", "1920"])
-
         return {"status": "opened", "platform": "linux"}
     else:
         return {"status": "opened", "platform": "windows (simulação)"}
+
 
 
 @app.get("/close/{package}")
