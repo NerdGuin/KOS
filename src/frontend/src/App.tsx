@@ -2,7 +2,6 @@ import { useState } from 'react'
 import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
-import Carousel from './components/Carousel'
 import SettingsWindow from './pages/Settings'
 
 interface AppItem {
@@ -139,13 +138,7 @@ function App() {
 
       {!activePage && (
         <div className="container" id="home">
-          <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
-            <Dashboard
-              apps={apps.filter((a) => a.favorite)}
-              onAppClick={openApp}
-            />
-            <Dashboard apps={apps} onAppClick={openApp} />
-          </Carousel>
+          <Dashboard apps={apps} onAppClick={openApp} />
         </div>
       )}
 
