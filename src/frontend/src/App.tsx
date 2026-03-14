@@ -3,7 +3,6 @@ import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
 import SettingsWindow from './pages/Settings'
-import Carousel from './components/Carousel'
 
 interface AppItem {
   icon: string
@@ -16,7 +15,6 @@ interface AppItem {
 function App() {
   const [activePage, setActivePage] = useState<null | string>(null)
   const [openPages, setOpenPages] = useState<string[]>([])
-  const [slideIndex, setSlideIndex] = useState(0)
 
   const apps: AppItem[] = [
     {
