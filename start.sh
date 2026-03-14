@@ -104,6 +104,13 @@ sleep 5
 # --------------------------------------
 # 7. ABRIR CHROMIUM EM MODO KIOSK
 # --------------------------------------
+echo "Aguardando Wayland..."
+
+while [ ! -S "$XDG_RUNTIME_DIR/wayland-0" ]; do
+    sleep 1
+done
+
+echo "Wayland pronto!"
 chromium \
 --ozone-platform=wayland \
 --enable-features=UseOzonePlatform \
