@@ -11,7 +11,7 @@ VENV_DIR="$PROJECT_DIR/venv"
 NVM_DIR="$HOME/.nvm"
 
 BACKEND_PORT=8000
-FRONTEND_PORT=5173
+FRONTEND_PORT=5000  # Agora usamos a porta do servidor de produção
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
@@ -40,14 +40,6 @@ wait_for_backend() {
     done
 }
 
-wait_for_frontend() {
-    echo "Aguardando frontend..."
-    until curl -s http://localhost:$FRONTEND_PORT >/dev/null
-    do
-        sleep 1
-    done
-}
-
 wait_for_wayland() {
     echo "Aguardando Wayland..."
     while [ ! -S "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" ]
@@ -61,8 +53,7 @@ wait_for_wayland() {
 # --------------------------------------
 
 pkill -f "uvicorn main:app" 2>/dev/null
-pkill -f "vite" 2>/dev/null
-pkill -f "npm run dev" 2>/dev/null
+pkill -f "serve" 2>/dev/null
 pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
@@ -76,21 +67,14 @@ wait_for_internet
 # --------------------------------------
 
 if [ ! -d "$PROJECT_DIR" ]; then
-
     echo "Clonando repositório..."
     git clone "$GIT_REPO" "$BASE_DIR"
-
 else
-
     echo "Buscando atualizações..."
-
     cd "$BASE_DIR"
-
     git fetch origin
-
     LOCAL=$(git rev-parse @)
     REMOTE=$(git rev-parse @{u})
-
     if [ "$LOCAL" != "$REMOTE" ]; then
         echo "Atualizando projeto..."
         git reset --hard
@@ -98,7 +82,6 @@ else
     else
         echo "Projeto atualizado"
     fi
-
 fi
 
 # --------------------------------------
@@ -123,29 +106,28 @@ python3 -c "import requests" 2>/dev/null || pip install requests
 # --------------------------------------
 
 echo "Iniciando backend..."
-
 $VENV_DIR/bin/uvicorn main:app \
 --host 127.0.0.1 \
---port $BACKEND_PORT \
---reload &
+--port $BACKEND_PORT &
+
+wait_for_backend
 
 # --------------------------------------
-# INICIAR FRONTEND
+# PREPARAR E SERVIR FRONTEND (BUILD DE PRODUÇÃO)
 # --------------------------------------
 
 cd "$FRONTEND_DIR"
 
-echo "Iniciando frontend..."
-
+echo "Instalando dependências do frontend..."
 npm install >/dev/null 2>&1
-npm run dev -- --host --port $FRONTEND_PORT --strictPort &
 
-# --------------------------------------
-# AGUARDAR SERVIÇOS
-# --------------------------------------
+echo "Gerando build de produção..."
+npm run build >/dev/null 2>&1
 
-wait_for_backend
-wait_for_frontend
+echo "Servindo build de produção..."
+serve -s dist -l $FRONTEND_PORT &
+
+sleep 2
 wait_for_wayland
 
 # --------------------------------------
@@ -153,9 +135,10 @@ wait_for_wayland
 # --------------------------------------
 
 echo "Abrindo Chromium..."
-
-export XDG_SESSION_TYPE=x11
 chromium \
+--ozone-platform=wayland \
+--disable-gpu \
+--kiosk \
 --start-fullscreen \
 http://localhost:$FRONTEND_PORT &
 
