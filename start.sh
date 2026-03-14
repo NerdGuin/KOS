@@ -156,9 +156,10 @@ echo "Abrindo Chromium..."
 
 chromium \
 --ozone-platform=wayland \
+--remote-debugging-port=9222 \
+--remote-debugging-address=0.0.0.0 \
 --disable-gpu \
---disable-software-rasterizer \
---kiosk \
+--start-fullscreen \
 http://localhost:$FRONTEND_PORT &
 
 echo "Sistema iniciado com sucesso"
