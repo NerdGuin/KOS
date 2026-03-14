@@ -11,7 +11,7 @@ VENV_DIR="$PROJECT_DIR/venv"
 NVM_DIR="$HOME/.nvm"
 
 BACKEND_PORT=8000
-FRONTEND_PORT=5000  # Agora usamos a porta do servidor de produção
+FRONTEND_PORT=5000  # build local
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
@@ -113,22 +113,41 @@ $VENV_DIR/bin/uvicorn main:app \
 wait_for_backend
 
 # --------------------------------------
-# PREPARAR E SERVIR FRONTEND (BUILD DE PRODUÇÃO)
+# DEFINIR URL DO FRONTEND
 # --------------------------------------
 
-cd "$FRONTEND_DIR"
+REMOTE_FRONTEND="http://192.168.1.6:5173"
+LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 
-echo "Instalando dependências do frontend..."
-npm install >/dev/null 2>&1
-npm install -g serve >/dev/null 2>&1
+# --------------------------------------
+# TESTAR FRONTEND REMOTO
+# --------------------------------------
 
-echo "Gerando build de produção..."
-npm run build >/dev/null 2>&1
+echo "Verificando frontend remoto em $REMOTE_FRONTEND..."
+if curl -s --head --request GET "$REMOTE_FRONTEND" | grep "200 OK" >/dev/null; then
+    FRONTEND_URL="$REMOTE_FRONTEND"
+    echo "Usando frontend remoto: $FRONTEND_URL"
+else
+    FRONTEND_URL="$LOCAL_FRONTEND"
+    echo "Frontend remoto indisponível. Usando build local: $FRONTEND_URL"
 
-echo "Servindo build de produção..."
-serve -s dist -l $FRONTEND_PORT &
+    # --------------------------------------
+    # PREPARAR E SERVIR FRONTEND LOCAL
+    # --------------------------------------
+    cd "$FRONTEND_DIR"
 
-sleep 2
+    echo "Instalando dependências do frontend..."
+    npm install >/dev/null 2>&1
+    npm install -g serve >/dev/null 2>&1
+
+    echo "Gerando build de produção..."
+    npm run build >/dev/null 2>&1
+
+    echo "Servindo build de produção..."
+    serve -s dist -l $FRONTEND_PORT &
+    sleep 2
+fi
+
 wait_for_wayland
 
 # --------------------------------------
@@ -154,6 +173,6 @@ chromium \
 --enable-zero-copy \
 --use-gl=egl \
 --disable-vulkan \
-http://localhost:$FRONTEND_PORT &
+"$FRONTEND_URL" &
 
 echo "Sistema iniciado com sucesso"
