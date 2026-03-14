@@ -101,11 +101,16 @@ def move_android_window():
 def open_app(package: str):
     if sys.platform.startswith("linux"):
         import subprocess
+
         subprocess.Popen(["waydroid", "app", "launch", package])
-        move_android_window()
+
+        subprocess.run(["waydroid", "window", "move", "0", "0"])
+        subprocess.run(["waydroid", "window", "resize", "1080", "1920"])
+
         return {"status": "opened", "platform": "linux"}
     else:
         return {"status": "opened", "platform": "windows (simulação)"}
+
 
 @app.get("/close/{package}")
 def close_app(package: str):
