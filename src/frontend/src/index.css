@@ -26,6 +26,7 @@
   font-family: 'DelaGothicOne-Regular';
   src: url('../src/assets/fonts/DelaGothicOne-Regular.ttf') format('truetype');
 }
+
 :root {
   --primary-bg: #121212;
   --secondary-bg: #1e1e1e;
@@ -37,6 +38,7 @@
   --card-border: rgba(255, 255, 255, 0.1);
   --glass-bg: rgba(20, 20, 20, 0.85);
 }
+
 * {
   height: 100%;
   margin: 0;
@@ -51,7 +53,9 @@ body {
   color: #ffffff;
   overflow: hidden;
   position: relative;
-} /* Subtle Background Pattern */
+}
+
+/* Subtle Background Pattern */
 .bg-pattern {
   position: fixed;
   inset: 0;
@@ -78,7 +82,9 @@ body {
   );
   pointer-events: none;
   z-index: -1;
-} /* Main Container */
+}
+
+ /* Main Container */
 .container {
   position: relative;
   width: 100%;

@@ -129,13 +129,7 @@ function App() {
 
       {!activePage && (
         <div className="container" id="home">
-          <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
-            <Dashboard
-              apps={apps.filter((a) => a.favorite)}
-              onAppClick={openApp}
-            />
-            <Dashboard apps={apps} onAppClick={openApp} />
-          </Carousel>
+          <Dashboard apps={apps} onAppClick={openApp} />
         </div>
       )}
 

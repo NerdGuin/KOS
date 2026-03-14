@@ -1,42 +1,53 @@
 /* Main Dashboard */
 .dashboard {
-  flex-grow: 1;
+  position: relative; /* relativo para centralizar */
+  width: 90vw; /* largura responsiva */
+  max-width: 1600px; /* limite máximo */
+  height: auto;
+  min-height: 80vh; /* ocupa a maior parte da tela vertical */
   display: flex;
+  justify-content: center; /* centraliza horizontal */
+  align-items: center; /* centraliza vertical */
   perspective: 1000px;
-  height: 65%;
-  padding-top: 15px;
-  margin-bottom: 15px;
-  overflow-y: scroll;
-  position: absolute;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
-.dashboard::-webkit-scrollbar {
-  opacity: 0;
-  width: 0px;
-}
+
+/* Grid de aplicativos */
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  row-gap: 60px;
-  column-gap: 160px;
-  padding: 0 100px;
+  grid-template-columns: repeat(4, 1fr); /* sempre 4 colunas */
+  grid-auto-rows: min-content;
+  gap: 60px;
   width: 100%;
-  max-width: 1600px;
-  height: 65%;
+  justify-items: center;
+  align-items: start;
+  height: auto;
 }
+
+/* Cada item da grid */
 .app-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  transition: transform 0.3s ease;
+  gap: 10px;
+  max-width: 180px; /* limite máximo */
+  width: 12vw; /* escala com a tela */
+  max-height: 250px;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
 .app-item:hover {
-  transform: translateY(-10px) scale(1.05);
+  transform: translateY(-5%) scale(1.05);
 }
+
+/* Wrapper do ícone circular */
 .app-icon-wrapper {
-  width: clamp(90px, 12vw, 180px);
-  height: clamp(90px, 12vw, 180px);
+  width: 13vw;
+  height: 13vw;
+  max-width: 180px;
+  max-height: 180px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
@@ -51,13 +62,16 @@
   overflow: hidden;
   transition: all 0.3s ease;
 }
+
 .app-item:hover .app-icon-wrapper {
   border-color: rgba(255, 69, 0, 0.5);
   box-shadow:
     0 15px 40px rgba(0, 0, 0, 0.6),
     inset 0 0 20px rgba(255, 69, 0, 0.1),
     0 0 30px rgba(255, 69, 0, 0.2);
-} /* Inner ring for automotive gauge feel */
+}
+
+/* Anel interno para efeito gauge */
 .app-icon-wrapper::before {
   content: '';
   position: absolute;
@@ -69,22 +83,30 @@
   border: 2px dashed rgba(255, 255, 255, 0.1);
   pointer-events: none;
 }
+
+/* Ícone do app */
 .app-icon {
-  font-size: clamp(32px, 5vw, 70px);
+  font-size: 5vw; /* escala com a tela */
+  max-font-size: 70px;
   color: #fff;
   z-index: 2;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   height: auto;
 }
+
+/* Label do app */
 .app-label {
   font-family: 'AlibabaSans-Medium';
-  font-size: clamp(14px, 2vw, 24px);
+  font-size: 1.5vw; /* escala com a tela */
+  max-font-size: 24px;
   color: #e0e0e0;
   text-align: center;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   height: auto;
-} /* Animations */
+}
+
+/* Animações de pulso */
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.4);
@@ -96,6 +118,8 @@
     box-shadow: 0 0 0 0 rgba(255, 69, 0, 0);
   }
 }
+
+/* Anel ativo animado */
 .active-ring {
   position: absolute;
   width: 100%;
@@ -105,7 +129,31 @@
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 .app-item:hover .active-ring {
   opacity: 1;
   animation: pulse 2s infinite;
+}
+
+/* Ajustes extra para telas muito pequenas */
+@media (max-width: 600px) {
+  .app-item {
+    width: 20vw;
+    max-width: 120px;
+  }
+  .app-icon-wrapper {
+    width: 20vw;
+    height: 20vw;
+    max-width: 120px;
+    max-height: 120px;
+  }
+  .app-icon {
+    font-size: 8vw;
+  }
+  .app-label {
+    font-size: 3vw;
+  }
+  .app-grid {
+    gap: 20px;
+  }
 }
