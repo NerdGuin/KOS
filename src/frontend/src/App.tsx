@@ -75,13 +75,6 @@ function App() {
       favorite: true,
       window: 'settings',
     },
-    {
-      icon: 'ri-error-warning-line',
-      label: 'TESTE',
-      color: '#ff0000',
-      favorite: false,
-      window: 'test',
-    },
   ]
 
   const openApp = (app: AppItem) => {

@@ -2,26 +2,21 @@
 .dashboard {
   flex-grow: 1;
   display: flex;
-  /* perspective removido para aliviar GPU */
-  height: 65%;
-  padding-top: 15px;
-  margin-bottom: 15px;
-  overflow-y: auto; /* permite scroll suave */
   position: absolute;
-  -webkit-overflow-scrolling: touch; /* melhora scroll no touch */
+  -webkit-overflow-scrolling: touch;
 }
 
 .dashboard::-webkit-scrollbar {
   width: 0px;
-  background: transparent; /* scrollbar invisível */
+  background: transparent;
 }
 
 /* Grid de apps */
 .app-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  row-gap: 30px; /* menor que antes */
-  column-gap: 80px; /* menor que antes */
+  row-gap: 30px;
+  column-gap: 80px;
   padding: 0 50px;
   width: 100%;
   max-width: 1600px;
@@ -33,15 +28,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px; /* um pouco menor */
-  transition: transform 0.2s ease; /* mais leve que 0.3s */
+  gap: 15px;
+  transition: transform 0.2s ease;
   cursor: pointer;
-  will-change: transform; /* indica que vai animar */
+  will-change: transform;
 }
 
 /* Hover simples */
 .app-item:hover {
-  transform: translateY(-6px) scale(1.04); /* menos agressivo */
+  transform: translateY(-6px) scale(1.04);
 }
 
 /* Wrapper do ícone */
@@ -49,12 +44,12 @@
   width: clamp(90px, 12vw, 180px);
   height: clamp(90px, 12vw, 180px);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08); /* sem blur */
+  background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* simplificado */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
   transition: all 0.2s ease;
@@ -63,7 +58,7 @@
 /* Hover do wrapper */
 .app-item:hover .app-icon-wrapper {
   border-color: rgba(255, 69, 0, 0.4);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); /* mais leve */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* Inner ring */
@@ -84,7 +79,7 @@
   font-size: clamp(32px, 5vw, 70px);
   color: #fff;
   z-index: 2;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); /* mais leve */
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
   height: auto;
 }
 
@@ -95,7 +90,7 @@
   color: #e0e0e0;
   text-align: center;
   letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); /* mais leve */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   height: auto;
 }
 
@@ -112,7 +107,7 @@
 
 .app-item:hover .active-ring {
   opacity: 1;
-  animation: pulse 1.5s infinite; /* mais rápido e leve */
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
