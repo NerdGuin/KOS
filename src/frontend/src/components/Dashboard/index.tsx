@@ -1,17 +1,17 @@
 import './index.css'
 
-const apps = [
-  { icon: 'ri-map-pin-2-fill', label: 'Navegação', color: '#4285f4' },
-  { icon: 'ri-spotify-fill', label: 'Spotify', color: '#1db954' },
-  { icon: 'ri-phone-fill', label: 'Telefone', color: '#34a853' },
-  { icon: 'ri-roadster-fill', label: 'Veículo', color: '#ff4500' },
-  { icon: 'ri-youtube-fill', label: 'YouTube', color: '#ff0000' },
-  { icon: 'ri-radio-2-fill', label: 'Rádio', color: '#ff9800' },
-  { icon: 'ri-sun-cloudy-fill', label: 'Clima', color: '#ffc107' },
-  { icon: 'ri-settings-4-fill', label: 'Configurações', color: '#9aa0a6' },
-]
+interface AppItem {
+  icon: string
+  label: string
+  color: string
+  favorite: boolean
+}
 
-export default function Dashboard() {
+interface DashboardProps {
+  apps: AppItem[]
+}
+
+export default function Dashboard({ apps }: DashboardProps) {
   return (
     <main className="dashboard">
       <div className="app-grid">

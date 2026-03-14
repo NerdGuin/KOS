@@ -166,7 +166,10 @@ chromium \
 --disable-translate \
 --disable-features=TranslateUI \
 --overscroll-history-navigation=0 \
---lang=pt-BR \
+--enable-gpu \
+--enable-zero-copy \
+--ignore-gpu-blocklist \
+--enable-gpu-rasterization \
 http://localhost:$FRONTEND_PORT &
 
 echo "Sistema iniciado com sucesso"

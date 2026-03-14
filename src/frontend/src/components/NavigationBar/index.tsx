@@ -6,7 +6,7 @@ export default function NavigationBar() {
       <div className="control-dock">
         <div className="control-btn">
           <i className="ri-arrow-left-line"></i>
-          <span>Voltar</span>
+          {/* <span>Voltar</span> */}
         </div>
 
         <div className="control-btn active">
