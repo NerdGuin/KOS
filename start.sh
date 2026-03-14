@@ -124,9 +124,15 @@ LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 # --------------------------------------
 
 echo "Verificando frontend remoto em $REMOTE_FRONTEND..."
-if curl -s --head --request GET "$REMOTE_FRONTEND" | grep "200 OK" >/dev/null; then
+
+if curl -s --head --request GET \
+   --connect-timeout 3 \
+   --max-time 5 \
+   "$REMOTE_FRONTEND" | grep "200 OK" >/dev/null; then
+
     FRONTEND_URL="$REMOTE_FRONTEND"
     echo "Usando frontend remoto: $FRONTEND_URL"
+
 else
     FRONTEND_URL="$LOCAL_FRONTEND"
     echo "Frontend remoto indisponível. Usando build local: $FRONTEND_URL"
