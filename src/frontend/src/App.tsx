@@ -3,6 +3,7 @@ import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
 import SettingsWindow from './pages/Settings'
+import Carousel from './components/Carousel'
 
 interface AppItem {
   icon: string
@@ -15,6 +16,7 @@ interface AppItem {
 function App() {
   const [activePage, setActivePage] = useState<null | string>(null)
   const [openPages, setOpenPages] = useState<string[]>([])
+  const [slideIndex, setSlideIndex] = useState(0)
 
   const apps: AppItem[] = [
     {
@@ -117,7 +119,21 @@ function App() {
       setActivePage(target)
       return
     }
+
+    if (target === 'apps') {
+      setSlideIndex(1)
+      setActivePage(null)
+      return
+    }
+
+    if (target === 'home') {
+      setSlideIndex(0)
+      setActivePage(null)
+      return
+    }
   }
+
+  const currentPage = activePage ?? (slideIndex === 1 ? 'apps' : 'home')
 
   return (
     <>
@@ -127,7 +143,13 @@ function App() {
 
       {!activePage && (
         <div className="container" id="home">
-          <Dashboard apps={apps} onAppClick={openApp} />
+          <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
+            <Dashboard
+              apps={apps.filter((a) => a.favorite)}
+              onAppClick={openApp}
+            />
+            <Dashboard apps={apps} onAppClick={openApp} />
+          </Carousel>
         </div>
       )}
 
@@ -139,7 +161,7 @@ function App() {
       {/* <ClimateWidget /> */}
 
       <NavigationBar
-        active={activePage || 'home'}
+        active={currentPage}
         onClick={handleNavClick}
         openPages={openPages}
       />
