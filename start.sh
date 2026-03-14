@@ -170,6 +170,7 @@ chromium \
 --enable-zero-copy \
 --ignore-gpu-blocklist \
 --enable-gpu-rasterization \
+--remote-debugging-address=0.0.0.0 \
 --remote-debugging-port=9222 \
 http://localhost:$FRONTEND_PORT &
 
