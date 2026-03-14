@@ -5,7 +5,7 @@ interface SettingsWindowProps {
   onClose: () => void
 }
 
-export default function SettingsWindow({ onClose }: SettingsWindowProps) {
+export default function SettingsWindow({}: SettingsWindowProps) {
   return (
     <div className="settings-container" id="settings">
       <div className="main-container">

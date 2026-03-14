@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
-import ClimateWidget from './components/ClimateWidget'
 import Dashboard from './components/Dashboard'
 import Carousel from './components/Carousel'
 import SettingsWindow from './pages/Settings'
