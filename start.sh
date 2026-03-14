@@ -170,6 +170,7 @@ chromium \
 --enable-zero-copy \
 --ignore-gpu-blocklist \
 --enable-gpu-rasterization \
+--remote-debugging-port=9222 \
 http://localhost:$FRONTEND_PORT &
 
 echo "Sistema iniciado com sucesso"
