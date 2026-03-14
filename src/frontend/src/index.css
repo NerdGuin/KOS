@@ -27,6 +27,18 @@
   src: url('../src/assets/fonts/DelaGothicOne-Regular.ttf') format('truetype');
 }
 
+:root {
+  --primary-bg: #121212;
+  --secondary-bg: #1e1e1e;
+  --accent-color: #f53d2d;
+  --accent-glow: rgba(245, 61, 45, 0.4);
+  --text-primary: #ffffff;
+  --text-secondary: #aaaaaa;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(20, 20, 20, 0.85);
+}
+
 * {
   height: 100%;
   margin: 0;
@@ -90,5 +102,7 @@ body {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+
+  justify-content: center;
+  align-items: center;
 }

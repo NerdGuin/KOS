@@ -5,18 +5,25 @@ interface AppItem {
   label: string
   color: string
   favorite: boolean
+  window?: string
 }
 
 interface DashboardProps {
   apps: AppItem[]
+  onAppClick: (app: AppItem) => void
 }
 
-export default function Dashboard({ apps }: DashboardProps) {
+export default function Dashboard({ apps, onAppClick }: DashboardProps) {
   return (
     <main className="dashboard">
       <div className="app-grid">
         {apps.map((app, i) => (
-          <div className="app-item" key={i}>
+          <div
+            className="app-item"
+            key={i}
+            onClick={() => onAppClick(app)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="app-icon-wrapper">
               <div className="active-ring"></div>
               <i

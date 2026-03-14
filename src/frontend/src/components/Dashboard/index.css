@@ -2,20 +2,29 @@
 .dashboard {
   flex-grow: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
   perspective: 1000px;
-  height: auto;
+  height: 65%;
+  padding-top: 15px;
+  margin-bottom: 15px;
+  overflow-y: scroll;
+
+  position: absolute;
 }
+.dashboard::-webkit-scrollbar {
+  opacity: 0;
+  width: 0px;
+}
+
 
 .app-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 60px;
+  row-gap: 60px;
+  column-gap: 160px;
   padding: 0 100px;
   width: 100%;
   max-width: 1600px;
-  height: auto;
+  height: 65%;
 }
 
 .app-item {
