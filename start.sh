@@ -154,11 +154,9 @@ wait_for_wayland
 
 echo "Abrindo Chromium..."
 
+export XDG_SESSION_TYPE=x11
 chromium \
---ozone-platform=wayland \
---disable-gpu \
---remote-debugging-port=9222 \
---remote-debugging-address=0.0.0.0 \
+--start-fullscreen \
 http://localhost:$FRONTEND_PORT &
 
 echo "Sistema iniciado com sucesso"
