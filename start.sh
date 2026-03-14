@@ -156,22 +156,9 @@ echo "Abrindo Chromium..."
 
 chromium \
 --ozone-platform=wayland \
---enable-features=UseOzonePlatform \
+--disable-gpu \
+--disable-software-rasterizer \
 --kiosk \
---start-fullscreen \
---start-maximized \
---no-first-run \
---disable-infobars \
---disable-session-crashed-bubble \
---disable-translate \
---disable-features=TranslateUI \
---overscroll-history-navigation=0 \
---enable-gpu \
---enable-zero-copy \
---ignore-gpu-blocklist \
---enable-gpu-rasterization \
---remote-debugging-address=192.168.1.200 \
---remote-debugging-port=9222 \
 http://localhost:$FRONTEND_PORT &
 
 echo "Sistema iniciado com sucesso"
