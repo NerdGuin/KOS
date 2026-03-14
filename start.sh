@@ -138,9 +138,22 @@ wait_for_wayland
 echo "Abrindo Chromium..."
 chromium \
 --ozone-platform=wayland \
---disable-gpu \
+--enable-features=UseOzonePlatform \
 --kiosk \
 --start-fullscreen \
+--start-maximized \
+--no-first-run \
+--disable-infobars \
+--disable-session-crashed-bubble \
+--disable-translate \
+--disable-features=TranslateUI \
+--overscroll-history-navigation=0 \
+--enable-gpu \
+--enable-gpu-rasterization \
+--ignore-gpu-blocklist \
+--enable-zero-copy \
+--use-gl=egl \
+--disable-vulkan \
 http://localhost:$FRONTEND_PORT &
 
 echo "Sistema iniciado com sucesso"
