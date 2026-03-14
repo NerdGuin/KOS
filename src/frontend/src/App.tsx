@@ -130,8 +130,8 @@ function App() {
 
   return (
     <>
-      {/* <div className="bg-pattern"></div>
-      <div className="bg-glow"></div> */}
+      <div className="bg-pattern"></div>
+      <div className="bg-glow"></div>
       <StatusBar />
 
       {!activePage && (

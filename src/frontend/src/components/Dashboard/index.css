@@ -2,71 +2,71 @@
 .dashboard {
   flex-grow: 1;
   display: flex;
-  perspective: 1000px;
+  /* perspective removido para aliviar GPU */
   height: 65%;
   padding-top: 15px;
   margin-bottom: 15px;
-  overflow-y: scroll;
-
+  overflow-y: auto; /* permite scroll suave */
   position: absolute;
+  -webkit-overflow-scrolling: touch; /* melhora scroll no touch */
 }
+
 .dashboard::-webkit-scrollbar {
-  opacity: 0;
   width: 0px;
+  background: transparent; /* scrollbar invisível */
 }
 
-
+/* Grid de apps */
 .app-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  row-gap: 60px;
-  column-gap: 160px;
-  padding: 0 100px;
+  row-gap: 30px; /* menor que antes */
+  column-gap: 80px; /* menor que antes */
+  padding: 0 50px;
   width: 100%;
   max-width: 1600px;
   height: 65%;
 }
 
+/* Cada app */
 .app-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  transition: transform 0.3s ease;
+  gap: 15px; /* um pouco menor */
+  transition: transform 0.2s ease; /* mais leve que 0.3s */
   cursor: pointer;
+  will-change: transform; /* indica que vai animar */
 }
 
+/* Hover simples */
 .app-item:hover {
-  transform: translateY(-10px) scale(1.05);
+  transform: translateY(-6px) scale(1.04); /* menos agressivo */
 }
 
+/* Wrapper do ícone */
 .app-icon-wrapper {
   width: clamp(90px, 12vw, 180px);
   height: clamp(90px, 12vw, 180px);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08); /* sem blur */
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* simplificado */
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
+/* Hover do wrapper */
 .app-item:hover .app-icon-wrapper {
-  border-color: rgba(255, 69, 0, 0.5);
-  box-shadow:
-    0 15px 40px rgba(0, 0, 0, 0.6),
-    inset 0 0 20px rgba(255, 69, 0, 0.1),
-    0 0 30px rgba(255, 69, 0, 0.2);
+  border-color: rgba(255, 69, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); /* mais leve */
 }
 
-/* Inner ring for automotive gauge feel */
+/* Inner ring */
 .app-icon-wrapper::before {
   content: '';
   position: absolute;
@@ -79,37 +79,27 @@
   pointer-events: none;
 }
 
+/* Ícone */
 .app-icon {
   font-size: clamp(32px, 5vw, 70px);
   color: #fff;
   z-index: 2;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5); /* mais leve */
   height: auto;
 }
 
+/* Label */
 .app-label {
   font-family: 'AlibabaSans-Medium';
   font-size: clamp(14px, 2vw, 24px);
   color: #e0e0e0;
   text-align: center;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); /* mais leve */
   height: auto;
 }
 
-/* Animations */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 69, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 69, 0, 0);
-  }
-}
-
+/* Hover pulse simplificado */
 .active-ring {
   position: absolute;
   width: 100%;
@@ -117,10 +107,22 @@
   border-radius: 50%;
   border: 2px solid #ff4500;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
 }
 
 .app-item:hover .active-ring {
   opacity: 1;
-  animation: pulse 2s infinite;
+  animation: pulse 1.5s infinite; /* mais rápido e leve */
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 69, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 69, 0, 0);
+  }
 }
