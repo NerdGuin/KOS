@@ -36,13 +36,6 @@ export default function NavigationBar({
             >
               <i className="ri-home-5-fill"></i>
             </div>
-
-            <div
-              className={`control-btn ${active === 'apps' ? 'active' : ''}`}
-              onClick={() => onClick('apps')}
-            >
-              <i className="ri-apps-2-line"></i>
-            </div>
           </>
         )}
 

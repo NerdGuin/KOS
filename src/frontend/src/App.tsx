@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
@@ -12,8 +12,9 @@ interface AppItem {
   window?: string
 }
 
+const DashboardMemo = memo(Dashboard)
+
 function App() {
-  const [slideIndex, setSlideIndex] = useState(0)
   const [activePage, setActivePage] = useState<null | string>(null)
   const [openPages, setOpenPages] = useState<string[]>([])
 
@@ -125,20 +126,17 @@ function App() {
       setActivePage(target)
       return
     }
-
-    if (target === 'home') setSlideIndex(0)
-    if (target === 'apps') setSlideIndex(1)
   }
 
   return (
     <>
-      <div className="bg-pattern"></div>
-      <div className="bg-glow"></div>
+      {/* <div className="bg-pattern"></div>
+      <div className="bg-glow"></div> */}
       <StatusBar />
 
       {!activePage && (
         <div className="container" id="home">
-          <Dashboard apps={apps} onAppClick={openApp} />
+          <DashboardMemo apps={apps} onAppClick={openApp} />
         </div>
       )}
 
@@ -150,7 +148,7 @@ function App() {
       {/* <ClimateWidget /> */}
 
       <NavigationBar
-        active={activePage || (slideIndex === 0 ? 'home' : 'apps')}
+        active={activePage || 'home'}
         onClick={handleNavClick}
         openPages={openPages}
       />
