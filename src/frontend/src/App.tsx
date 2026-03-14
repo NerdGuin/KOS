@@ -3,6 +3,7 @@ import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
 import SettingsWindow from './pages/Settings'
+import Carousel from './components/Carousel'
 
 interface AppItem {
   icon: string
@@ -17,6 +18,7 @@ const DashboardMemo = memo(Dashboard)
 function App() {
   const [activePage, setActivePage] = useState<null | string>(null)
   const [openPages, setOpenPages] = useState<string[]>([])
+  const [slideIndex, setSlideIndex] = useState(0)
 
   const apps: AppItem[] = [
     {
@@ -129,7 +131,13 @@ function App() {
 
       {!activePage && (
         <div className="container" id="home">
-          <DashboardMemo apps={apps} onAppClick={openApp} />
+          <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
+            <Dashboard
+              apps={apps.filter((a) => a.favorite)}
+              onAppClick={openApp}
+            />
+            <Dashboard apps={apps} onAppClick={openApp} />
+          </Carousel>
         </div>
       )}
 
