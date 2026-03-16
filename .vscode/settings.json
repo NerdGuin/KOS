@@ -2,9 +2,7 @@
     "files.exclude": {
         ".vscode": true,
         ".gitignore": true,
-        "start.sh": true,
         ".bash_profile": true,
-        "start.bat": true,
         ".prettier*": true,
         "src/frontend/tsconfig*": true,
         "src/frontend/eslint*": true,
