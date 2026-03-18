@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './index.css'
 import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
 import Dashboard from './components/Dashboard'
@@ -75,6 +76,13 @@ function App() {
       favorite: true,
       window: 'settings',
     },
+    {
+      icon: 'ri-apps-2-add-fill',
+      label: 'Adicionar',
+      color: '#E0E0E0',
+      favorite: false,
+      window: 'test',
+    },
   ]
 
   const openApp = (app: AppItem) => {
@@ -148,7 +156,10 @@ function App() {
               apps={apps.filter((a) => a.favorite)}
               onAppClick={openApp}
             />
-            <Dashboard apps={apps} onAppClick={openApp} />
+            <Dashboard
+              apps={apps.filter((a) => !a.favorite)}
+              onAppClick={openApp}
+            />
           </Carousel>
         </div>
       )}

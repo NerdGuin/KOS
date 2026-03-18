@@ -2,6 +2,8 @@
   overflow: hidden;
   width: 100%;
   flex: 1;
+  height: auto;
+  display: flex;
 }
 
 .carousel-inner {
@@ -17,4 +19,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }

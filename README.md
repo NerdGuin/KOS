@@ -1,10 +1,12 @@
 # KOS - OPERATING SYSTEM
 
 <div style="display: flex; gap: 10px;">
-  <a href="screenshots/hom.png" data-lightbox="kos">
-    <img src="screenshots/hom.png"/>
+  <a href="screenshots/home.png" data-lightbox="kos">
+    <img src="screenshots/home.png"/>
   </a>
-
+  <a href="screenshots/apps.png" data-lightbox="kos">
+    <img src="screenshots/apps.png"/>
+  </a>
   <a href="screenshots/settings.png" data-lightbox="kos">
     <img src="screenshots/settings.png"/>
   </a>

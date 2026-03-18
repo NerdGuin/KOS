@@ -1,18 +1,15 @@
-.settings-container {
-  margin-top: 80px;
-  display: inline-table;
-  width: 100%;
-  zoom: 80%;
-}
-
 /* Main Content Area */
 .main-container {
   flex: 1;
   display: flex;
-  padding: 20px 60px 40px;
+  padding: 10px 10px 25px;
   gap: 40px;
-  z-index: 5;
-  height: calc(100% - 180px); /* Subtract status bar and bottom bar */
+
+  height: -webkit-fill-available;
+  margin-top: 80px;
+  margin-bottom: 100px;
+
+  zoom: 90%;
 }
 
 /* Sidebar Navigation */
@@ -212,7 +209,7 @@ input:checked + .slider:before {
   padding: 20px 0;
 }
 .range-slider {
-  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: 6px;
   background: #333;
