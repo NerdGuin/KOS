@@ -2,9 +2,11 @@ import { useState } from 'react'
 import './index.css'
 import StatusBar from './components/StatusBar'
 import NavigationBar from './components/NavigationBar'
-import Dashboard from './components/Dashboard'
-import SettingsWindow from './pages/Settings'
 import Carousel from './components/Carousel'
+import Dashboard from './components/Dashboard'
+
+import SettingsWindow from './pages/Settings'
+import CamerasWindow from './pages/Cameras'
 
 interface AppItem {
   icon: string
@@ -16,7 +18,7 @@ interface AppItem {
 
 function App() {
   const [activePage, setActivePage] = useState<null | string>(null)
-  const [openPages, setOpenPages] = useState<string[]>([])
+  const [openPages, setOpenPages] = useState<AppItem[]>([])
   const [slideIndex, setSlideIndex] = useState(0)
 
   const apps: AppItem[] = [
@@ -35,11 +37,11 @@ function App() {
       window: 'spotify',
     },
     {
-      icon: 'ri-phone-fill',
-      label: 'Telefone',
-      color: '#34a853',
+      icon: 'ri-camera-fill',
+      label: 'Câmeras',
+      color: '#8B5CF6',
       favorite: true,
-      window: 'phone',
+      window: 'cameras',
     },
     {
       icon: 'ri-roadster-fill',
@@ -88,17 +90,17 @@ function App() {
   const openApp = (app: AppItem) => {
     if (!app.window) return
 
-    const localOverlays = apps.filter((a) => a.window).map((a) => a.window!)
-    const localApps = ['settings', 'profile']
+    const localApps = ['settings', 'cameras']
 
-    if (
-      localOverlays.includes(localApps.find((a) => app.window!.includes(a))!)
-    ) {
+    if (localApps.some((a) => app.window!.includes(a))) {
       setOpenPages((prev) => {
-        if (prev.includes(app.window!)) return prev
-        const newPages = [...prev, app.window!]
+        if (prev.some((p) => p.window === app.window)) return prev
+
+        const newPages = [...prev, app]
+
         return newPages.slice(-5)
       })
+
       setActivePage(app.window)
     } else {
       fetch(`http://localhost:8000/open/${app.window}`)
@@ -118,7 +120,7 @@ function App() {
     }
 
     if (action === 'close') {
-      setOpenPages((prev) => prev.filter((p) => p !== target))
+      setOpenPages((prev) => prev.filter((p) => p.window !== target))
       if (activePage === target) setActivePage(null)
       return
     }
@@ -164,12 +166,15 @@ function App() {
         </div>
       )}
 
-      {activePage === 'settings' && (
-        <SettingsWindow onClose={() => setActivePage(null)} />
-      )}
-      {/* {activePage === 'profile' && <ProfilePage onClose={() => setActivePage(null)} />} */}
+      <SettingsWindow
+        visible={activePage === 'settings'}
+        onClose={() => setActivePage(null)}
+      />
 
-      {/* <ClimateWidget /> */}
+      <CamerasWindow
+        visible={activePage === 'cameras'}
+        onClose={() => setActivePage(null)}
+      />
 
       <NavigationBar
         active={currentPage}

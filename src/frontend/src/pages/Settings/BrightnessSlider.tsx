@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 export default function BrightnessSlider() {
-  const [value, setValue] = useState(60)
+  const [value, setValue] = useState(100)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(Number(e.target.value))

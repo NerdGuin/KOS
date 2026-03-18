@@ -46,7 +46,8 @@
   -webkit-font-smoothing: antialiased;
   user-select: none;
 }
-body, #root {
+body,
+#root {
   background: radial-gradient(circle at 50% 120%, #2a2a2a, #0a0a0a);
   font-family: 'AlibabaSans-Regular', sans-serif;
   color: #ffffff;

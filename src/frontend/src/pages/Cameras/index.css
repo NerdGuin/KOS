@@ -1,0 +1,21 @@
+.cameras-container {
+  flex: 1;
+  display: flex;
+  gap: 40px;
+
+  height: -webkit-fill-available;
+  z-index: -1;
+}
+
+.cam {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 100%;
+
+  background-color: black;
+}
+.cam p {
+  margin-top: 32px;
+  text-align: center;
+}

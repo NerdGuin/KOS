@@ -12,6 +12,7 @@
   width: -webkit-fill-available;
   top: 0;
   left: 0;
+  z-index: 9;
 }
 
 .brand-area {

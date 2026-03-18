@@ -14,12 +14,14 @@
 
 /* Sidebar Navigation */
 .sidebar {
-  width: 380px;
+  width: 330px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding-right: 20px;
   border-right: 1px solid var(--card-border);
+
+  zoom: 90%;
 }
 
 .nav-item {
@@ -250,4 +252,33 @@ input:checked + .slider:before {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #666;
+}
+
+.version-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #333 0%, #222 100%);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: 'MiSans-Bold';
+  font-size: 14px;
+  color: #fff;
+  border: 1px solid #444;
+  margin-top: 5px;
+
+  zoom: 80%;
+}
+
+.tech-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  zoom: 90%;
+}
+
+.tech-tag {
+  border: 1px solid var(--accent-glow);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
