@@ -179,6 +179,7 @@ chromium \
 --enable-zero-copy \
 --use-gl=egl \
 --disable-vulkan \
+--enable-features=VaapiVideoDecoder,WebGL2,UseOzonePlatform \
 "$FRONTEND_URL" &
 
 echo "Sistema iniciado com sucesso"

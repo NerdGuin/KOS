@@ -6,7 +6,6 @@
   height: -webkit-fill-available;
   z-index: -1;
 }
-
 .cam {
   width: 100%;
   position: absolute;
@@ -16,6 +15,8 @@
   background-color: black;
 }
 .cam p {
-  margin-top: 32px;
   text-align: center;
+  width: 100%;
+  bottom: 128px;
+  position: absolute;
 }

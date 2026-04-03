@@ -6,7 +6,7 @@ import Carousel from './components/Carousel'
 import Dashboard from './components/Dashboard'
 
 import SettingsWindow from './pages/Settings'
-import CamerasWindow from './pages/Cameras'
+import CamerasApplication from './applications/cameras'
 
 interface AppItem {
   icon: string
@@ -171,7 +171,7 @@ function App() {
         onClose={() => setActivePage(null)}
       />
 
-      <CamerasWindow
+      <CamerasApplication
         visible={activePage === 'cameras'}
         onClose={() => setActivePage(null)}
       />

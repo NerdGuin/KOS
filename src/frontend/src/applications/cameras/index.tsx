@@ -17,10 +17,10 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
     >
       <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
         <div className="cam">
-          <p>Câmera #0</p>
+          <p>Câmera Traseira</p>
         </div>
         <div className="cam">
-          <p>Câmera #1</p>
+          <p>Câmera Dianteira</p>
         </div>
       </Carousel>
     </div>
