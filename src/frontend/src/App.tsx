@@ -5,7 +5,7 @@ import NavigationBar from './components/NavigationBar'
 import Carousel from './components/Carousel'
 import Dashboard from './components/Dashboard'
 
-import SettingsWindow from './pages/Settings'
+import SettingsWindow from './applications/settings'
 import CamerasApplication from './applications/cameras'
 
 interface AppItem {

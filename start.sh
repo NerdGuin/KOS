@@ -11,14 +11,17 @@ VENV_DIR="$PROJECT_DIR/venv"
 NVM_DIR="$HOME/.nvm"
 
 BACKEND_PORT=8000
-FRONTEND_PORT=5000  # build local
+FRONTEND_PORT=5000
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
-export WAYLAND_DISPLAY=wayland-0
 export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
 
-source "$NVM_DIR/nvm.sh"
+# Carregar NVM corretamente (IMPORTANTE)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# Pequeno delay pra garantir que o sistema subiu
+sleep 5
 
 # --------------------------------------
 # FUNÇÕES
@@ -40,14 +43,6 @@ wait_for_backend() {
     done
 }
 
-wait_for_wayland() {
-    echo "Aguardando Wayland..."
-    while [ ! -S "$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY" ]
-    do
-        sleep 1
-    done
-}
-
 # --------------------------------------
 # ENCERRAR PROCESSOS ANTIGOS
 # --------------------------------------
@@ -57,7 +52,7 @@ pkill -f "serve" 2>/dev/null
 pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
-# ESPERAR INTERNET
+# INTERNET
 # --------------------------------------
 
 wait_for_internet
@@ -85,7 +80,7 @@ else
 fi
 
 # --------------------------------------
-# PREPARAR BACKEND
+# BACKEND
 # --------------------------------------
 
 cd "$PROJECT_DIR"
@@ -101,10 +96,6 @@ python3 -c "import fastapi" 2>/dev/null || pip install fastapi
 python3 -c "import uvicorn" 2>/dev/null || pip install uvicorn
 python3 -c "import requests" 2>/dev/null || pip install requests
 
-# --------------------------------------
-# INICIAR BACKEND
-# --------------------------------------
-
 echo "Iniciando backend..."
 $VENV_DIR/bin/uvicorn main:app \
 --host 127.0.0.1 \
@@ -113,15 +104,11 @@ $VENV_DIR/bin/uvicorn main:app \
 wait_for_backend
 
 # --------------------------------------
-# DEFINIR URL DO FRONTEND
+# FRONTEND
 # --------------------------------------
 
 REMOTE_FRONTEND="http://192.168.1.6:5173"
 LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
-
-# --------------------------------------
-# TESTAR FRONTEND REMOTO
-# --------------------------------------
 
 echo "Verificando frontend remoto em $REMOTE_FRONTEND..."
 
@@ -135,51 +122,43 @@ if curl -s --head --request GET \
 
 else
     FRONTEND_URL="$LOCAL_FRONTEND"
-    echo "Frontend remoto indisponível. Usando build local: $FRONTEND_URL"
+    echo "Frontend remoto indisponível. Usando local..."
 
-    # --------------------------------------
-    # PREPARAR E SERVIR FRONTEND LOCAL
-    # --------------------------------------
     cd "$FRONTEND_DIR"
 
-    echo "Instalando dependências do frontend..."
+    echo "Instalando dependências..."
     npm install >/dev/null 2>&1
     npm install -g serve >/dev/null 2>&1
 
-    echo "Gerando build de produção..."
+    echo "Buildando frontend..."
     npm run build >/dev/null 2>&1
 
-    echo "Servindo build de produção..."
+    echo "Servindo frontend..."
     serve -s dist -l $FRONTEND_PORT &
-    sleep 2
+    sleep 3
 fi
 
-wait_for_wayland
-
 # --------------------------------------
-# INICIAR CHROMIUM KIOSK
+# KIOSK (CHROMIUM)
 # --------------------------------------
 
-echo "Abrindo Chromium..."
+echo "Iniciando Chromium..."
+
+unclutter -idle 0 &
+
 chromium \
---ozone-platform=wayland \
---enable-features=UseOzonePlatform \
 --kiosk \
 --start-fullscreen \
---start-maximized \
 --no-first-run \
 --disable-infobars \
 --disable-session-crashed-bubble \
 --disable-translate \
---disable-features=TranslateUI \
 --overscroll-history-navigation=0 \
 --enable-gpu \
 --enable-gpu-rasterization \
 --ignore-gpu-blocklist \
 --enable-zero-copy \
 --use-gl=egl \
---disable-vulkan \
---enable-features=VaapiVideoDecoder,WebGL2,UseOzonePlatform \
 "$FRONTEND_URL" &
 
 echo "Sistema iniciado com sucesso"
