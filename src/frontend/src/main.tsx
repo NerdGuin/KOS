@@ -13,7 +13,8 @@ export const appData = {
 
 export function updateMode(e: any | null = null) {
   if (desktopApps.includes(e) || !e) {
-    appData.mode = 'desktop'
+    // appData.mode = 'desktop'
+    appData.mode = 'mobile'
   } else {
     appData.mode = 'mobile'
   }
