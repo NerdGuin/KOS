@@ -22,7 +22,6 @@ export default function Dashboard({ apps, onAppClick }: DashboardProps) {
             className="app-item"
             key={i}
             onClick={() => onAppClick(app)}
-            style={{ cursor: 'pointer' }}
           >
             <div className="app-icon-wrapper">
               <div className="active-ring"></div>

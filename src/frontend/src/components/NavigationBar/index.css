@@ -1,5 +1,5 @@
-/* Bottom Controls */
-.bottom-bar {
+/* NAVIGATION BAR (DESKTOP) */
+.bottom-bar[data-mode='desktop'] {
   z-index: 2;
   height: 100px;
   display: flex;
@@ -14,17 +14,16 @@
   left: 0;
 }
 
-.control-dock {
+.bottom-bar[data-mode='desktop'] .control-dock {
   display: flex;
   gap: 40px;
   background: rgba(255, 255, 255, 0.05);
   padding: 15px 40px;
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  /* backdrop-filter: blur(10px); */
 }
 
-.control-btn {
+.bottom-bar[data-mode='desktop'] .control-btn {
   width: 50px;
   height: 50px;
   display: flex;
@@ -33,38 +32,78 @@
   border-radius: 50%;
   color: rgba(255, 255, 255, 0.7);
   transition: all 0.3s;
-  cursor: pointer;
 }
 
-.control-btn:hover,
-.control-btn.active {
+.bottom-bar[data-mode='desktop'] .control-btn:hover,
+.bottom-bar[data-mode='desktop'] .control-btn.active {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   transform: scale(1.1);
 }
 
-.control-btn i {
+.bottom-bar[data-mode='desktop'] .control-btn i {
   font-size: 24px;
   height: auto;
 }
 
-/* Tooltip */
-.control-btn span {
-  font-size: 12px;
-  font-family: 'MiSans-Medium';
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s;
-  position: absolute;
-  bottom: -20px;
-  white-space: nowrap;
-}
-.control-btn:hover span {
-  opacity: 1;
-  transform: translateY(0);
+.bottom-bar[data-mode='desktop'] .nav-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 0 8px;
+  align-self: stretch;
 }
 
-.nav-divider {
+/* NAVIGATION BAR (MOBILE) */
+.bottom-bar[data-mode='mobile'] {
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+
+  position: fixed;
+  width: -webkit-fill-available;
+  bottom: 0;
+  left: 0;
+  zoom: 85%;
+}
+
+.bottom-bar[data-mode='mobile'] .control-dock {
+  display: flex;
+  gap: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-bar[data-mode='mobile'] .control-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s;
+}
+
+.bottom-bar[data-mode='mobile'] .control-btn:hover,
+.bottom-bar[data-mode='mobile'] .control-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.bottom-bar[data-mode='mobile'] .control-btn i {
+  font-size: 24px;
+  height: auto;
+}
+
+.bottom-bar[data-mode='mobile'] .nav-divider {
   width: 1px;
   background: rgba(255, 255, 255, 0.3);
   margin: 0 8px;

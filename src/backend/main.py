@@ -83,19 +83,19 @@ def get_wireless_status():
 @app.get("/open/{package}")
 def open_app(package: str):
     if sys.platform.startswith("linux"):
-        import subprocess
-        subprocess.Popen(["waydroid", "app", "launch", package])
-        return {"status": "opened", "platform": "linux"}
+        # import subprocess
+        # subprocess.Popen(["waydroid", "app", "launch", package])
+        return {"status": "opened", "app": package, "mode": 'mobile'}
     else:
-        return {"status": "opened", "platform": "windows (simulação)"}
+        return {"status": "opened", "app": package, "mode": 'mobile'}
 
 
 
 @app.get("/close/{package}")
 def close_app(package: str):
     if sys.platform.startswith("linux"):
-        import subprocess
-        subprocess.Popen(["waydroid", "app", "stop", package])
-        return {"status": "closed", "platform": "linux"}
+        # import subprocess
+        # subprocess.Popen(["waydroid", "app", "stop", package])
+        return {"status": "closed", "app": package}
     else:
-        return {"status": "closed", "platform": "windows (simulação)"}
+        return {"status": "closed", "app": package}

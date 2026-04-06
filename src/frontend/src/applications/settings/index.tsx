@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import BrightnessSlider from './BrightnessSlider'
 import './index.css'
+import { appData } from '../../main'
 
 type Page = 'screen' | 'about'
 
@@ -125,7 +126,6 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px',
-                  cursor: 'pointer',
                 }}
               >
                 <span>5 Minutos</span>
@@ -160,7 +160,8 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
                 <span className="setting-label">Versão Atual</span>
                 <span className="setting-desc">
                   <strong>
-                    Build 0.25 <span className="version-badge">BETA</span>
+                    Build {appData.version}{' '}
+                    <span className="version-badge">BETA</span>
                   </strong>
                 </span>
               </div>

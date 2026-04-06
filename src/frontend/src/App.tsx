@@ -8,6 +8,9 @@ import Dashboard from './components/Dashboard'
 import SettingsWindow from './applications/settings'
 import CamerasApplication from './applications/cameras'
 
+import { OnOpenApp } from './assets/scripts/app.tsx'
+import { localApps, updateMode } from './main.tsx'
+
 interface AppItem {
   icon: string
   label: string
@@ -90,8 +93,6 @@ function App() {
   const openApp = (app: AppItem) => {
     if (!app.window) return
 
-    const localApps = ['settings', 'cameras']
-
     if (localApps.some((a) => app.window!.includes(a))) {
       setOpenPages((prev) => {
         if (prev.some((p) => p.window === app.window)) return prev
@@ -101,11 +102,13 @@ function App() {
         return newPages.slice(-5)
       })
 
+      OnOpenApp({ app: app.window })
       setActivePage(app.window)
+      updateMode(app.window)
     } else {
       fetch(`http://localhost:8000/open/${app.window}`)
         .then((res) => res.json())
-        .then((data) => console.log('API response:', data))
+        .then((data) => OnOpenApp(data))
         .catch((err) => console.error(err))
     }
   }
@@ -116,29 +119,34 @@ function App() {
   ) => {
     if (action === 'back') {
       setActivePage(null)
+      updateMode(null)
       return
     }
 
     if (action === 'close') {
       setOpenPages((prev) => prev.filter((p) => p.window !== target))
       if (activePage === target) setActivePage(null)
+      updateMode(null)
       return
     }
 
     if (action === 'open') {
       setActivePage(target)
+      updateMode(target)
       return
     }
 
     if (target === 'apps') {
       setSlideIndex(1)
       setActivePage(null)
+      updateMode(null)
       return
     }
 
     if (target === 'home') {
       setSlideIndex(0)
       setActivePage(null)
+      updateMode(null)
       return
     }
   }
@@ -168,12 +176,18 @@ function App() {
 
       <SettingsWindow
         visible={activePage === 'settings'}
-        onClose={() => setActivePage(null)}
+        onClose={() => {
+          setActivePage(null)
+          updateMode(null)
+        }}
       />
 
       <CamerasApplication
         visible={activePage === 'cameras'}
-        onClose={() => setActivePage(null)}
+        onClose={() => {
+          setActivePage(null)
+          updateMode(null)
+        }}
       />
 
       <NavigationBar

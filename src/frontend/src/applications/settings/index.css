@@ -31,7 +31,6 @@
   border-radius: 16px;
   background: transparent;
   color: var(--text-secondary);
-  cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   font-size: 22px;
   font-weight: 500;
@@ -177,7 +176,6 @@
 }
 .slider {
   position: absolute;
-  cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
@@ -225,7 +223,6 @@ input:checked + .slider:before {
   height: 24px;
   background: var(--text-primary);
   border-radius: 50%;
-  cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   margin-top: -9px; /* center thumb */
   position: relative;
@@ -234,7 +231,6 @@ input:checked + .slider:before {
 .range-slider::-webkit-slider-runnable-track {
   width: 100%;
   height: 6px;
-  cursor: pointer;
   background: none;
   border-radius: 3px;
 }

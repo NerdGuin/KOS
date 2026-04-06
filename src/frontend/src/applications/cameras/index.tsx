@@ -22,6 +22,13 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
         <div className="cam">
           <p>Câmera Dianteira</p>
         </div>
+
+        <div className="cam">
+          <p>Câmera Esquerda</p>
+        </div>
+        <div className="cam">
+          <p>Câmera Direita</p>
+        </div>
       </Carousel>
     </div>
   )
