@@ -110,7 +110,7 @@ else
 
     echo "Instalando dependências..."
     $VENV_PIP install --upgrade pip >/dev/null 2>&1
-    $VENV_PIP install fastapi uvicorn requests >/dev/null 2>&1
+    $VENV_PIP install fastapi uvicorn requests opencv-python >/dev/null 2>&1
 
     echo "Iniciando backend..."
     $VENV_PY -m uvicorn main:app \
@@ -146,8 +146,6 @@ fi
 
 echo "Iniciando Chromium..."
 
-unclutter -idle 0 &
-
 chromium \
 --kiosk \
 --start-fullscreen \
@@ -156,11 +154,7 @@ chromium \
 --disable-session-crashed-bubble \
 --disable-translate \
 --overscroll-history-navigation=0 \
---enable-gpu \
---enable-gpu-rasterization \
---ignore-gpu-blocklist \
 --enable-zero-copy \
---use-gl=egl \
 "$FRONTEND_URL" &
 
 echo "Sistema iniciado com sucesso"

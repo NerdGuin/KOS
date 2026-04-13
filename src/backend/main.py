@@ -1,8 +1,12 @@
 from fastapi import FastAPI, Request
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
+import cv2
 import time
 import sys
 import requests
+
+from wireless import get_wireless_status
 
 app = FastAPI()
 
@@ -12,6 +16,30 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+def gen_camera(index=0):
+    cap = cv2.VideoCapture(index)
+
+    while True:
+        success, frame = cap.read()
+        if not success:
+            break
+
+        _, buffer = cv2.imencode('.jpg', frame)
+        frame_bytes = buffer.tobytes()
+
+        yield (
+            b'--frame\r\n'
+            b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n'
+        )
+
+
+@app.get("/camera/{cam_id}")
+def camera_stream(cam_id: int):
+    return StreamingResponse(
+        gen_camera(cam_id),
+        media_type='multipart/x-mixed-replace; boundary=frame'
+    )
 
 
 # ---- API GERAL ----
@@ -27,58 +55,9 @@ def get_temp(lat: float, lon: float):
     return {"temp": temp}
 
 @app.get("/api/system/wireless")
-def get_wireless_status():
-    status = {
-        "wifi_enabled": False,
-        "wifi_connected": False,
-        "bluetooth_enabled": False,
-        "bluetooth_connected": False
-    }
+def wireless():
+    return get_wireless_status()
 
-    if sys.platform.startswith("linux"):
-        import subprocess
-        # Wifi
-        try:
-            wifi_state = subprocess.check_output(
-                ["nmcli", "radio", "wifi"], text=True
-            ).strip()
-
-            status["wifi_enabled"] = wifi_state.lower() == "enabled"
-
-            wifi_conn = subprocess.check_output(
-                ["nmcli", "-t", "-f", "ACTIVE", "dev", "wifi"], text=True
-            )
-
-            status["wifi_connected"] = "yes" in wifi_conn
-
-        except Exception:
-            pass
-
-        # Bluetooth
-        try:
-            bt_state = subprocess.check_output(
-                ["bluetoothctl", "show"], text=True
-            )
-
-            status["bluetooth_enabled"] = "Powered: yes" in bt_state
-
-            bt_conn = subprocess.check_output(
-                ["bluetoothctl", "info"], text=True
-            )
-
-            status["bluetooth_connected"] = "Connected: yes" in bt_conn
-
-        except Exception:
-            pass
-
-        return status
-    else:
-        # Windows Simulation
-        status["wifi_enabled"] = True
-        status["wifi_connected"] = True
-        status["bluetooth_enabled"] = False
-        status["bluetooth_connected"] = False
-        return status
 
 @app.get("/open/{package}")
 def open_app(package: str):

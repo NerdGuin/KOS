@@ -17,6 +17,7 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
     >
       <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
         <div className="cam">
+          <img src="http://localhost:8000/camera/0" />
           <p>Câmera Traseira</p>
         </div>
         <div className="cam">
