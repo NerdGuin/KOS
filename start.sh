@@ -129,6 +129,7 @@ else
 
     echo "Instalando dependências..."
     npm install >/dev/null 2>&1
+    npm install --save-dev @types/three >/dev/null 2>&1
     npm install -g serve >/dev/null 2>&1
 
     echo "Buildando frontend..."

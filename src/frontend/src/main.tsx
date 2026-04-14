@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 
-export const localApps = ['settings', 'cameras']
+export const localApps = ['settings', 'cameras', 'vehicle']
 export const desktopApps = ['settings']
 
 export const appData = {

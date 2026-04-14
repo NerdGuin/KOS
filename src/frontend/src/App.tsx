@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard'
 
 import SettingsWindow from './applications/settings'
 import CamerasApplication from './applications/cameras'
+import VehicleApplication from './applications/vehicle'
 
 import { OnOpenApp } from './assets/scripts/app.tsx'
 import { localApps, updateMode } from './main.tsx'
@@ -184,6 +185,14 @@ function App() {
 
       <CamerasApplication
         visible={activePage === 'cameras'}
+        onClose={() => {
+          setActivePage(null)
+          updateMode(null)
+        }}
+      />
+
+      <VehicleApplication
+        visible={activePage === 'vehicle'}
         onClose={() => {
           setActivePage(null)
           updateMode(null)
