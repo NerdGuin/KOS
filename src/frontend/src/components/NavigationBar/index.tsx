@@ -22,7 +22,7 @@ export default function NavigationBar({
   const hasActivePage = active !== 'home' && active !== 'apps'
 
   return (
-    <footer className="bottom-bar" data-mode="desktop">
+    <footer className="bottom-bar" data-mode="mobile">
       <div className="control-dock">
         {hasActivePage && (
           <div className="control-btn" onClick={() => onClick(active, 'back')}>

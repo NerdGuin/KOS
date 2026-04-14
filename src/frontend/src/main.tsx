@@ -7,7 +7,7 @@ export const desktopApps = ['settings']
 export const appData = {
   version: '0.25',
 
-  mode: 'desktop', // 'desktop', 'mobile'
+  mode: 'mobile', // 'desktop', 'mobile'
   appOpened: null as { app: string; time: number } | null,
 }
 
