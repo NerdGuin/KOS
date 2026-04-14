@@ -4,8 +4,8 @@
   <a href="screenshots/home.png" data-lightbox="kos">
     <img src="screenshots/home.png"/>
   </a>
-  <a href="screenshots/homemob.png" data-lightbox="kos">
-    <img src="screenshots/homemob.png"/>
+  <a href="screenshots/cameras.png" data-lightbox="kos">
+    <img src="screenshots/cameras.png"/>
   </a>
   <a href="screenshots/settings.png" data-lightbox="kos">
     <img src="screenshots/settings.png"/>

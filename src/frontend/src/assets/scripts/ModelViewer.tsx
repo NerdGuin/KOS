@@ -26,9 +26,12 @@ export default function FbxViewer() {
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.6))
 
-    const light = new THREE.DirectionalLight(0xffffff, 1)
-    light.position.set(5, 0, 7)
-    scene.add(light)
+    const topLight = new THREE.DirectionalLight(0xffffff, 1)
+    topLight.position.set(500, 500, 500)
+    topLight.castShadow = true
+    scene.add(topLight)
+
+    scene.add(new THREE.AmbientLight(0x333333, 5))
 
     const loader = new GLTFLoader()
     loader.load('/Kombi.glb', (gltf) => {
@@ -37,7 +40,7 @@ export default function FbxViewer() {
 
       const box = new THREE.Box3().setFromObject(model)
       const size = box.getSize(new THREE.Vector3()).length()
-      const center = box.getCenter(new THREE.Vector3())
+      const center = box.getCenter(new THREE.Vector3()).sub(new THREE.Vector3(0, 1, 0))
 
       controls.target.copy(center)
 
