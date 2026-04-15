@@ -161,6 +161,13 @@
   font-size: 14px;
   color: var(--text-secondary);
 }
+.setting-action {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
 
 /* Toggle Switch */
 .switch {
