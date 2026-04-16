@@ -36,6 +36,8 @@
   font-weight: 500;
   position: relative;
   overflow: hidden;
+
+  border: 1px solid transparent;
 }
 
 .nav-item i {
