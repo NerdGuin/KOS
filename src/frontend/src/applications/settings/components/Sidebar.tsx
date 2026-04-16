@@ -1,4 +1,4 @@
-type Page = 'screen' | 'about' | 'wifi'
+import type { Page } from '../index'
 
 interface SidebarProps {
   activePage: Page
@@ -34,7 +34,10 @@ export default function Sidebar({ activePage, setActivePage }: SidebarProps) {
         <span>Config. de Áudio</span>
       </div>
 
-      <div className="nav-item">
+      <div
+        className={`nav-item ${activePage === 'system' ? 'active' : ''}`}
+        onClick={() => setActivePage('system')}
+      >
         <i className="ri-settings-4-line"></i>
         <span>Sistema</span>
       </div>

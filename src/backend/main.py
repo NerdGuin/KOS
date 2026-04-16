@@ -18,16 +18,6 @@ app.add_middleware(
 
 
 # ---- API GERAL ----
-@app.get("/api/temp")
-def get_temp(lat: float, lon: float):
-    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
-
-    res = requests.get(url)
-    data = res.json()
-
-    temp = round(data["current_weather"]["temperature"])
-
-    return {"temp": temp}
 
 @app.get("/api/system/wireless")
 def wireless():

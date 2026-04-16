@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import Sidebar from './sidebar'
+import Sidebar from './components/Sidebar'
 import WifiPage from './WifiPage'
 import ScreenPage from './ScreenPage'
+import SystemPage from './SystemPage'
 import AboutPage from './AboutPage'
 import './index.css'
 
-type Page = 'screen' | 'about' | 'wifi'
+export type Page = 'wifi' | 'screen' | 'system' | 'about'
 
 interface SettingsWindowProps {
   visible: boolean
@@ -21,6 +22,8 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
         return <WifiPage />
       case 'screen':
         return <ScreenPage />
+      case 'system':
+        return <SystemPage />
       case 'about':
         return <AboutPage />
       default:

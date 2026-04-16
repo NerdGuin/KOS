@@ -1,6 +1,9 @@
-import BrightnessSlider from './BrightnessSlider'
+import { useConfig } from '../../assets/ConfigContext'
+import BrightnessSlider from './components/BrightnessSlider'
 
 export default function ScreenPage() {
+  const { configs, setConfigs } = useConfig()
+
   return (
     <main className="settings-detail">
       <div className="detail-header">
@@ -18,7 +21,11 @@ export default function ScreenPage() {
           className="setting-row"
           style={{ flexDirection: 'column', alignItems: 'flex-start' }}
         >
-          <BrightnessSlider />
+          <BrightnessSlider
+            value={configs.brightness}
+            onChange={(value) => setConfigs({ ...configs, brightness: value })}
+            disabled={configs.brightnessAuto}
+          />
         </div>
       </div>
       <div className="setting-group">
@@ -31,7 +38,14 @@ export default function ScreenPage() {
             </span>
           </div>
           <label className="switch">
-            <input type="checkbox" /> <span className="slider"></span>
+            <input
+              type="checkbox"
+              checked={configs.brightnessAuto}
+              onChange={(e) =>
+                setConfigs({ ...configs, brightnessAuto: e.target.checked })
+              }
+            />
+            <span className="slider"></span>
           </label>
         </div>
         <div className="setting-row">
@@ -42,7 +56,14 @@ export default function ScreenPage() {
             </span>
           </div>
           <label className="switch">
-            <input type="checkbox" /> <span className="slider"></span>
+            <input
+              type="checkbox"
+              checked={configs.nightMode}
+              onChange={(e) =>
+                setConfigs({ ...configs, nightMode: e.target.checked })
+              }
+            />
+            <span className="slider"></span>
           </label>
         </div>
       </div>

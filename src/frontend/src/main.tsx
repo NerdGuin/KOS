@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client'
+import { ConfigProvider } from './assets/ConfigContext.tsx'
 import App from './App.tsx'
 
 export const localApps = ['settings', 'cameras', 'vehicle']
@@ -23,4 +24,8 @@ export function updateMode(e: any | null = null) {
   bottomBar!.setAttribute('data-mode', appData.mode)
 }
 
-createRoot(document.getElementById('root') as HTMLElement).render(<App />)
+createRoot(document.getElementById('root') as HTMLElement).render(
+  <ConfigProvider>
+    <App />
+  </ConfigProvider>
+)

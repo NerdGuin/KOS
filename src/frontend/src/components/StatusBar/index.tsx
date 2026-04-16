@@ -1,7 +1,10 @@
 import './index.css'
 import { useEffect, useState } from 'react'
+import { useConfig } from '../../assets/ConfigContext'
 
 export default function StatusBar() {
+  const { configs } = useConfig()
+
   const [time, setTime] = useState('')
   const [wireless, setWireless] = useState(null)
 
@@ -35,7 +38,10 @@ export default function StatusBar() {
         <span className="brand-text">
           K<span className="brand-accent">OS</span>
         </span>
-        <div className="model-badge">EM DESENVOLVIMENTO</div>
+
+        {configs.devBadge && (
+          <div className="model-badge">EM DESENVOLVIMENTO</div>
+        )}
       </div>
 
       <div className="status-info">
@@ -49,6 +55,7 @@ export default function StatusBar() {
                   : 'none',
             }}
           ></i>
+
           <i
             className="ri-bluetooth-connect-fill"
             style={{
@@ -60,7 +67,7 @@ export default function StatusBar() {
           ></i>
         </div>
 
-        <div className="time">{time}</div>
+        <div className={`time ${configs.clockPosition}`}>{time}</div>
       </div>
     </header>
   )

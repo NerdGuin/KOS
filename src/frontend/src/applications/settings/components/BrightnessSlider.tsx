@@ -1,12 +1,14 @@
-import { useState } from 'react'
+type BrightnessSliderProps = {
+  value: number
+  onChange: (value: number) => void
+  disabled: boolean
+}
 
-export default function BrightnessSlider() {
-  const [value, setValue] = useState(100)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(e.target.value))
-  }
-
+export default function BrightnessSlider({
+  value,
+  onChange,
+  disabled,
+}: BrightnessSliderProps) {
   return (
     <>
       <div
@@ -14,7 +16,6 @@ export default function BrightnessSlider() {
           width: '100%',
           display: 'flex',
           justifyContent: 'space-between',
-          marginBottom: '15px',
         }}
       >
         <span className="setting-label">Nível</span>
@@ -23,14 +24,16 @@ export default function BrightnessSlider() {
       <div className="range-container">
         <input
           type="range"
-          min="1"
+          min="0"
           max="100"
           value={value}
-          onChange={handleChange}
-          className="range-slider"
-          style={{
-            background: `linear-gradient(to right, var(--accent-color) 0%, var(--accent-color) ${value}%, #333 ${value}%, #333 100%)`,
-          }}
+          disabled={disabled}
+          onChange={(e) => onChange(Number(e.target.value))}
+          style={
+            {
+              '--value': `${value}%`,
+            } as React.CSSProperties
+          }
         />
         <div
           style={{
