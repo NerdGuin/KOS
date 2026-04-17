@@ -78,3 +78,36 @@ def get_wireless_status():
         status["bluetooth_connected"] = False
 
     return status
+
+
+def scan_wifi_networks():
+    networks = []
+
+    if not sys.platform.startswith("linux"):
+        return networks
+
+    try:
+        output = subprocess.check_output(
+            ["nmcli", "-t", "-f", "IN-USE,SSID,SIGNAL,SECURITY", "device", "wifi", "list"],
+            text=True
+        )
+
+        for line in output.splitlines():
+            parts = line.split(":")
+
+            if len(parts) >= 4:
+                in_use, ssid, signal, security = parts[:4]
+
+                networks.append({
+                    "ssid": ssid,
+                    "signal": int(signal) if signal.isdigit() else 0,
+                    "security": security,
+                    "connected": in_use == "*"
+                })
+
+        networks = sorted(networks, key=lambda x: (not x["connected"], -x["signal"]))
+
+    except Exception as e:
+        print("Erro ao escanear Wi-Fi:", e)
+
+    return networks

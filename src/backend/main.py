@@ -4,7 +4,7 @@ import time
 import sys
 import requests
 
-from wireless import get_wireless_status
+from wireless import get_wireless_status, scan_wifi_networks
 from cameras import camera_stream
 
 app = FastAPI()
@@ -22,6 +22,10 @@ app.add_middleware(
 @app.get("/api/system/wireless")
 def wireless():
     return get_wireless_status()
+
+@app.get("/api/system/wireless/list")
+def wireless_list():
+    return scan_wifi_networks()
 
 @app.get("/camera/{cam_id}")
 def cameras(cam_id: int):

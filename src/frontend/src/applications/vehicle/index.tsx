@@ -1,4 +1,4 @@
-import ModelViewer from '../../assets/scripts/ModelViewer'
+import ModelViewer from '../../components/ModelViewer'
 import './index.css'
 
 interface SettingsWindowProps {

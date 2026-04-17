@@ -3,21 +3,26 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-export default function FbxViewer() {
+export default function ModelViewer() {
   const mountRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!mountRef.current) return
+
+    // 🔥 limpa antes de tudo (anti-StrictMode)
+    mountRef.current.replaceChildren()
+
     const scene = new THREE.Scene()
 
-    const width = mountRef.current!.clientWidth || 1024
-    const height = mountRef.current!.clientHeight || 600
+    const width = mountRef.current.clientWidth || 1024
+    const height = mountRef.current.clientHeight || 600
 
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
 
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setSize(width, height)
 
-    mountRef.current?.appendChild(renderer.domElement)
+    mountRef.current.appendChild(renderer.domElement)
 
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
@@ -26,24 +31,23 @@ export default function FbxViewer() {
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.6))
 
-    const topLight = new THREE.DirectionalLight(0xffffff, 1)
-    topLight.position.set(500, 500, 500)
-    topLight.castShadow = true
-    scene.add(topLight)
-
-    scene.add(new THREE.AmbientLight(0x333333, 5))
+    const light = new THREE.DirectionalLight(0xffffff, 1)
+    light.position.set(500, 500, 500)
+    scene.add(light)
 
     const loader = new GLTFLoader()
+
+    let model: THREE.Object3D | null = null
+
     loader.load('/Kombi.glb', (gltf) => {
-      const model = gltf.scene
+      model = gltf.scene
       scene.add(model)
 
       const box = new THREE.Box3().setFromObject(model)
       const size = box.getSize(new THREE.Vector3()).length()
-      const center = box.getCenter(new THREE.Vector3()).sub(new THREE.Vector3(0, 1, 0))
+      const center = box.getCenter(new THREE.Vector3())
 
       controls.target.copy(center)
-
       camera.position.copy(center)
       camera.position.z += size * 0.8
 
@@ -52,8 +56,10 @@ export default function FbxViewer() {
 
     camera.position.set(0, 1, 5)
 
+    let animationId: number
+
     const animate = () => {
-      requestAnimationFrame(animate)
+      animationId = requestAnimationFrame(animate)
       controls.update()
       renderer.render(scene, camera)
     }
@@ -61,8 +67,19 @@ export default function FbxViewer() {
     animate()
 
     return () => {
+      cancelAnimationFrame(animationId)
+
+      controls.dispose()
+
+      if (model) {
+        scene.remove(model)
+      }
+
+      scene.clear()
+
       renderer.dispose()
-      mountRef.current?.removeChild(renderer.domElement)
+
+      mountRef.current?.replaceChildren()
     }
   }, [])
 

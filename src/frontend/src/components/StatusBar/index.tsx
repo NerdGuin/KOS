@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { useConfig } from '../../assets/ConfigContext'
+import { useConfig } from '../../context/ConfigContext'
 
 export default function StatusBar() {
   const { configs } = useConfig()

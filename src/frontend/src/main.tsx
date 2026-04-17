@@ -1,31 +1,27 @@
 import { createRoot } from 'react-dom/client'
-import { ConfigProvider } from './assets/ConfigContext.tsx'
-import App from './App.tsx'
-
-export const localApps = ['settings', 'cameras', 'vehicle']
-export const desktopApps = ['settings']
+import { StrictMode } from 'react'
+import { ConfigProvider } from './context/ConfigContext'
+import App from './App'
 
 export const appData = {
   version: '0.25',
-
-  mode: 'mobile', // 'desktop', 'mobile'
   appOpened: null as { app: string; time: number } | null,
 }
 
-export function updateMode(e: any | null = null) {
-  if (desktopApps.includes(e) || !e) {
-    // appData.mode = 'desktop'
-    appData.mode = 'mobile'
-  } else {
-    appData.mode = 'mobile'
-  }
+const rootElement = document.getElementById('root')
 
-  const bottomBar = document.querySelector('.bottom-bar')
-  bottomBar!.setAttribute('data-mode', appData.mode)
+if (!rootElement) {
+  throw new Error('Root element not found')
 }
 
-createRoot(document.getElementById('root') as HTMLElement).render(
-  <ConfigProvider>
-    <App />
-  </ConfigProvider>
+createRoot(rootElement).render(
+  <StrictMode>
+    <ConfigProvider>
+      <App />
+    </ConfigProvider>
+  </StrictMode>
 )
+
+window.addEventListener('contextmenu', (event) => {
+  event.preventDefault()
+})

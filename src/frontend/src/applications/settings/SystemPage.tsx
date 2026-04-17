@@ -1,4 +1,4 @@
-import { useConfig } from '../../assets/ConfigContext'
+import { useConfig } from '../../context/ConfigContext'
 
 export default function SystemPage() {
   const { configs, setConfigs } = useConfig()

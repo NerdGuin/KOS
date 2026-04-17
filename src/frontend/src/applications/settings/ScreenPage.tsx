@@ -1,4 +1,4 @@
-import { useConfig } from '../../assets/ConfigContext'
+import { useConfig } from '../../context/ConfigContext'
 import BrightnessSlider from './components/BrightnessSlider'
 
 export default function ScreenPage() {

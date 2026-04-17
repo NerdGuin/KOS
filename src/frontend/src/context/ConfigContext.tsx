@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import type { ReactNode } from 'react'
-import { configs as defaultConfigs } from './config'
+import { configs as defaultConfigs } from '../config/config'
 
 type ConfigContextType = {
   configs: typeof defaultConfigs
