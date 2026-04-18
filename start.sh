@@ -100,7 +100,7 @@ else
     fi
 
     if [ ! -d "dist" ]; then
-        npm run build
+        npm run dev
     fi
 
     FRONTEND_URL="$LOCAL_FRONTEND"
