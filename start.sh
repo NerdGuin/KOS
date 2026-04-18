@@ -20,7 +20,7 @@ export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
 export DISPLAY=:0
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
-sleep 3
+sleep 5
 
 # --------------------------------------
 # FUNÇÕES
@@ -28,25 +28,27 @@ sleep 3
 
 wait_for_internet() {
     echo "Aguardando internet..."
-    until ping -c1 8.8.8.8 >/dev/null 2>&1; do
+    until ping -c1 8.8.8.8 >/dev/null 2>&1
+    do
         sleep 1
     done
 }
 
 wait_for_backend() {
     echo "Aguardando backend..."
-    until curl -s http://localhost:$BACKEND_PORT >/dev/null; do
+    until curl -s http://localhost:$BACKEND_PORT >/dev/null
+    do
         sleep 1
     done
 }
 
 # --------------------------------------
-# ENCERRAR PROCESSOS (SEGURO)
+# ENCERRAR PROCESSOS ANTIGOS
 # --------------------------------------
 
-pkill -x uvicorn 2>/dev/null
-pkill -x serve 2>/dev/null
-pkill -x chromium 2>/dev/null
+# pkill -f "uvicorn" 2>/dev/null
+# pkill -f "serve" 2>/dev/null
+# pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
 # INTERNET
@@ -55,26 +57,43 @@ pkill -x chromium 2>/dev/null
 wait_for_internet
 
 # --------------------------------------
-# CLONE INICIAL (SEM UPDATE AGRESSIVO)
+# AUTO UPDATE DO REPO
 # --------------------------------------
 
 if [ ! -d "$BASE_DIR" ]; then
     echo "Clonando repositório..."
     git clone "$GIT_REPO" "$BASE_DIR"
+else
+    echo "Buscando atualizações..."
+    cd "$BASE_DIR"
+
+    git fetch origin
+
+    LOCAL=$(git rev-parse @)
+    REMOTE=$(git rev-parse @{u})
+
+    if [ "$LOCAL" != "$REMOTE" ]; then
+        echo "Atualizando projeto..."
+        git reset --hard
+        git pull
+    else
+        echo "Projeto atualizado"
+    fi
 fi
 
 # --------------------------------------
-# FRONTEND REMOTO
+# FRONTEND (TESTE REMOTO PRIMEIRO)
 # --------------------------------------
 
-echo "Verificando frontend remoto..."
+echo "Verificando frontend remoto em $REMOTE_FRONTEND..."
 
-if curl --fail --silent --connect-timeout 2 "$REMOTE_FRONTEND" >/dev/null; then
+if curl --fail --silent --connect-timeout 3 "$REMOTE_FRONTEND" >/dev/null; then
+
     FRONTEND_URL="$REMOTE_FRONTEND"
-    echo "Usando remoto: $FRONTEND_URL"
+    echo "Usando frontend remoto: $FRONTEND_URL"
 
 else
-    echo "Usando frontend local..."
+    echo "Frontend remoto indisponível. Subindo backend + frontend local..."
 
     # --------------------------------------
     # BACKEND
@@ -83,17 +102,22 @@ else
     cd "$PROJECT_DIR"
 
     if [ ! -d "$VENV_DIR" ]; then
-        echo "Criando venv (primeira vez)..."
+        echo "Criando venv..."
         python3 -m venv "$VENV_DIR"
-
-        "$VENV_DIR/bin/pip" install --upgrade pip
-        "$VENV_DIR/bin/pip" install fastapi uvicorn requests opencv-python
     fi
 
+    # NÃO usar activate (evita erro de ambiente)
+    VENV_PY="$VENV_DIR/bin/python"
+    VENV_PIP="$VENV_DIR/bin/pip"
+
+    echo "Instalando dependências..."
+    $VENV_PIP install --upgrade pip >/dev/null 2>&1
+    $VENV_PIP install fastapi uvicorn requests opencv-python >/dev/null 2>&1
+
     echo "Iniciando backend..."
-    "$VENV_DIR/bin/python" -m uvicorn main:app \
-        --host 127.0.0.1 \
-        --port $BACKEND_PORT &
+    $VENV_PY -m uvicorn main:app \
+    --host 127.0.0.1 \
+    --port $BACKEND_PORT &
 
     wait_for_backend
 
@@ -101,32 +125,39 @@ else
     # FRONTEND LOCAL
     # --------------------------------------
 
-    cd "$FRONTEND_DIR"
-
-    if [ ! -d "node_modules" ]; then
-        echo "Instalando dependências (primeira vez)..."
-        npm install
-    fi
-
-    if [ ! -d "dist" ]; then
-        echo "Buildando frontend..."
-        npm run build
-    fi
-
     FRONTEND_URL="$LOCAL_FRONTEND"
 
-    echo "Subindo frontend..."
-    npx serve -s dist -l $FRONTEND_PORT &
+    cd "$FRONTEND_DIR"
+
+    echo "Instalando dependências..."
+    npm install >/dev/null 2>&1
+    npm install --save-dev @types/three >/dev/null 2>&1
+    npm install -g serve >/dev/null 2>&1
+
+    echo "Buildando frontend..."
+    npm run build >/dev/null 2>&1
+
+    echo "Servindo frontend..."
+    serve -s dist -l $FRONTEND_PORT &
+
+    sleep 3
 fi
 
-sleep 2
-
 # --------------------------------------
-# CHROMIUM KIOSK
+# KIOSK (CHROMIUM)
 # --------------------------------------
 
 echo "Iniciando Chromium..."
 
-chromium --kiosk --no-sandbox --disable-infobars --disable-session-crashed-bubble --disable-translate --overscroll-history-navigation=0 "$FRONTEND_URL" &
+chromium \
+--kiosk \
+--start-fullscreen \
+--no-first-run \
+--disable-infobars \
+--disable-session-crashed-bubble \
+--disable-translate \
+--overscroll-history-navigation=0 \
+--enable-zero-copy \
+"$FRONTEND_URL" &
 
-echo "Sistema iniciado 🚀"
+echo "Sistema iniciado com sucesso"
