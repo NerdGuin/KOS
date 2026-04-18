@@ -17,6 +17,8 @@ REMOTE_FRONTEND="http://192.168.1.6:5173"
 LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 
 export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
+export DISPLAY=$(who | grep '(:' | awk '{print $NF}' | tr -d '()')
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 sleep 5
 
@@ -39,14 +41,6 @@ wait_for_backend() {
         sleep 1
     done
 }
-
-# --------------------------------------
-# ENCERRAR PROCESSOS ANTIGOS
-# --------------------------------------
-
-pkill -f "uvicorn" 2>/dev/null
-# pkill -f "serve" 2>/dev/null
-# pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
 # INTERNET
@@ -78,6 +72,14 @@ else
         echo "Projeto atualizado"
     fi
 fi
+
+# --------------------------------------
+# ENCERRAR PROCESSOS ANTIGOS
+# --------------------------------------
+
+pkill -f "uvicorn" 2>/dev/null
+# pkill -f "serve" 2>/dev/null
+pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
 # FRONTEND (TESTE REMOTO PRIMEIRO)
@@ -131,6 +133,7 @@ else
     npm install >/dev/null 2>&1
     npm install --save-dev @types/three >/dev/null 2>&1
     npm install -g serve >/dev/null 2>&1
+    
 
     echo "Buildando frontend..."
     npm run build >/dev/null 2>&1
