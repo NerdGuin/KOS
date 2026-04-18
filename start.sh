@@ -34,14 +34,6 @@ wait_for_internet() {
     done
 }
 
-wait_for_backend() {
-    echo "Verificando se modo desenvolvimento está ativo..."
-    until curl -s http://localhost:$BACKEND_PORT >/dev/null
-    do
-        sleep 1
-    done
-}
-
 # --------------------------------------
 # INTERNET
 # --------------------------------------
@@ -53,10 +45,10 @@ wait_for_internet
 # --------------------------------------
 
 if [ ! -d "$BASE_DIR" ]; then
-    echo "Clonando repositório..."
+    echo "Projeto não encontrado. Clonando repositório..."
     git clone "$GIT_REPO" "$BASE_DIR"
 else
-    echo "Buscando atualizações..."
+    echo "Verificando se há atualizações no repositório..."
     cd "$BASE_DIR"
 
     git fetch origin
@@ -65,11 +57,11 @@ else
     REMOTE=$(git rev-parse @{u})
 
     if [ "$LOCAL" != "$REMOTE" ]; then
-        echo "Atualizando projeto..."
+        echo "Atualizações encontradas. Atualizando..."
         git reset --hard
         git pull
     else
-        echo "Projeto atualizado"
+        echo "Nenhuma atualização encontrada."
     fi
 fi
 
@@ -78,76 +70,69 @@ fi
 # --------------------------------------
 
 pkill -f "uvicorn" 2>/dev/null
-# pkill -f "serve" 2>/dev/null
 fuser -k 5000/tcp 2>/dev/null
 pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
-# FRONTEND (TESTE REMOTO PRIMEIRO)
+# BACKEND
 # --------------------------------------
 
-echo "Verificando frontend remoto em $REMOTE_FRONTEND..."
+cd "$PROJECT_DIR"
+
+if [ ! -d "$VENV_DIR" ]; then
+    echo "[BACKEND] Gerando ambiente virtual..."
+    python3 -m venv "$VENV_DIR"
+fi
+
+VENV_PY="$VENV_DIR/bin/python"
+VENV_PIP="$VENV_DIR/bin/pip"
+
+echo "[BACKEND] Instalando dependências..."
+$VENV_PIP install --upgrade pip >/dev/null 2>&1
+$VENV_PIP install fastapi uvicorn requests opencv-python >/dev/null 2>&1
+
+echo "[BACKEND] Iniciando..."
+$VENV_PY -m uvicorn main:app \
+--host 0.0.0.0 \
+--port $BACKEND_PORT &
+
+
+# --------------------------------------
+# FRONTEND
+# --------------------------------------
+
+echo "[FRONTEND] Verificando se modo desenvolvimento está ativo..."
 
 if curl --fail --silent --connect-timeout 3 "$REMOTE_FRONTEND" >/dev/null; then
 
     FRONTEND_URL="$REMOTE_FRONTEND"
-    echo "Usando frontend remoto: $FRONTEND_URL"
+    echo "[FRONTEND] O modo desenvolvimento está ativo. Redirecionando..."
 
 else
-    echo "Frontend remoto indisponível. Subindo backend + frontend local..."
-
-    # --------------------------------------
-    # BACKEND
-    # --------------------------------------
-
-    cd "$PROJECT_DIR"
-
-    if [ ! -d "$VENV_DIR" ]; then
-        echo "Criando venv..."
-        python3 -m venv "$VENV_DIR"
-    fi
-
-    # NÃO usar activate (evita erro de ambiente)
-    VENV_PY="$VENV_DIR/bin/python"
-    VENV_PIP="$VENV_DIR/bin/pip"
-
-    echo "Instalando dependências..."
-    $VENV_PIP install --upgrade pip >/dev/null 2>&1
-    $VENV_PIP install fastapi uvicorn requests opencv-python >/dev/null 2>&1
-
-    echo "Iniciando backend..."
-    $VENV_PY -m uvicorn main:app \
-    --host 0.0.0.0 \
-    --port $BACKEND_PORT &
-
-    wait_for_backend
-
-    # --------------------------------------
-    # FRONTEND LOCAL
-    # --------------------------------------
+    echo "[FRONTEND] O modo desenvolvimento não está ativo. Iniciando todos os sistemas..."
 
     FRONTEND_URL="$LOCAL_FRONTEND"
 
     cd "$FRONTEND_DIR"
 
     if [ ! -d "node_modules" ]; then
-        echo "Instalando dependências (primeira vez)..."
+        echo "[FRONTEND] Instalando dependências..."
         npm install >/dev/null 2>&1
     fi
     if [ ! -d "node_modules/@types/three" ]; then
-        echo "Instalando @types/three..."
+        echo "[FRONTEND] Instalando @types/three..."
         npm install --save-dev @types/three >/dev/null 2>&1
     fi
     if ! command -v serve >/dev/null 2>&1; then
-        echo "Instalando serve global..."
+        echo "[FRONTEND] Instalando serve global..."
         npm install -g serve >/dev/null 2>&1
     fi
     
 
-    echo "Buildando frontend..."
+    echo "[FRONTEND] Construindo..."
     npm run build >/dev/null 2>&1
 
-    echo "Servindo frontend..."
+    echo "[FRONTEND] Iniciando..."
     serve -s dist -l $FRONTEND_PORT &
 
     sleep 3
@@ -157,7 +142,7 @@ fi
 # KIOSK (CHROMIUM)
 # --------------------------------------
 
-echo "Iniciando Chromium..."
+echo "[KIOSK] Iniciando Chromium..."
 
 chromium \
 --kiosk \
@@ -170,6 +155,6 @@ chromium \
 --enable-zero-copy \
 "$FRONTEND_URL" &
 
-echo "Sistema iniciado com sucesso"
+echo "[KIOSK] Sistema iniciado com sucesso"
 
 wait
