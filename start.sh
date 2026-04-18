@@ -78,7 +78,8 @@ fi
 # --------------------------------------
 
 pkill -f "uvicorn" 2>/dev/null
-pkill -f "serve" 2>/dev/null
+# pkill -f "serve" 2>/dev/null
+fuser -k 5000/tcp 2>/dev/null
 pkill -f "chromium" 2>/dev/null
 
 # --------------------------------------
