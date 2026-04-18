@@ -50,7 +50,6 @@ pkill -x chromium 2>/dev/null
 
 if curl --fail --silent --connect-timeout 2 "$REMOTE_FRONTEND" >/dev/null; then
     FRONTEND_URL="$REMOTE_FRONTEND"
-
 else
     echo "Usando local..."
 
@@ -74,7 +73,7 @@ else
     fi
 
     if [ ! -d "dist" ]; then
-        npm run build
+        npm run dev
     fi
 
     FRONTEND_URL="$LOCAL_FRONTEND"
