@@ -292,7 +292,6 @@ input[type='range']::-webkit-slider-thumb {
   background: white;
   border-radius: 50%;
   margin-top: -6px;
-  cursor: pointer;
   transition: transform 0.2s;
 }
 input[type='range']::-webkit-slider-thumb:hover {
@@ -314,5 +313,4 @@ input[type='range']::-moz-range-thumb {
   background: white;
   border-radius: 50%;
   border: none;
-  cursor: pointer;
 }

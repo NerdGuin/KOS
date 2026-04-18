@@ -17,6 +17,8 @@ REMOTE_FRONTEND="http://192.168.1.6:5173"
 LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 
 export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
+export DISPLAY=:0
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 sleep 5
 
@@ -155,7 +157,6 @@ chromium \
 --disable-session-crashed-bubble \
 --disable-translate \
 --overscroll-history-navigation=0 \
---enable-zero-copy \
 "$FRONTEND_URL" &
 
 echo "Sistema iniciado com sucesso"
