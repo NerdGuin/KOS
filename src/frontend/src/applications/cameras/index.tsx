@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Carousel from '../../components/Carousel'
 import './index.css'
+import { BACKEND_URL } from '../../config/apps'
 
 interface SettingsWindowProps {
   onClose: () => void
@@ -17,7 +18,7 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
     >
       <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
         <div className="cam">
-          <img src="http://localhost:8000/camera/0" />
+          <img src={`${BACKEND_URL}/camera/0`} />
           <p>Câmera Traseira</p>
         </div>
         <div className="cam">

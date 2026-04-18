@@ -11,7 +11,7 @@ import CamerasApplication from './applications/cameras'
 import VehicleApplication from './applications/vehicle'
 
 import { appManager } from './core/appManager'
-import { localApps } from './config/apps'
+import { BACKEND_URL, localApps } from './config/apps'
 
 interface AppItem {
   icon: string
@@ -112,7 +112,7 @@ function App() {
       return
     }
 
-    fetch(`http://localhost:8000/open/${app.window}`)
+    fetch(`${BACKEND_URL}/open/${app.window}`)
       .then((res) => res.json())
       .then(() => appManager.open({ app: app.window } as any))
       .catch(console.error)
