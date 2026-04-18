@@ -1,4 +1,4 @@
-import ModelViewer from '../../components/ModelViewer'
+// import ModelViewer from '../../components/ModelViewer'
 import './index.css'
 
 interface SettingsWindowProps {
@@ -12,7 +12,7 @@ export default function SettingsWindow({ visible }: SettingsWindowProps) {
       className="vehicle-container"
       style={{ display: `${visible ? 'flex' : 'none'}` }}
     >
-      <ModelViewer />
+      {/* <ModelViewer /> */}
     </div>
   )
 }
