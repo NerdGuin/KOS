@@ -27,7 +27,7 @@ sleep 5
 # --------------------------------------
 
 wait_for_internet() {
-    echo "Aguardando internet..."
+    echo "Verificando se há conexão com a internet..."
     until ping -c1 8.8.8.8 >/dev/null 2>&1
     do
         sleep 1
@@ -35,7 +35,7 @@ wait_for_internet() {
 }
 
 wait_for_backend() {
-    echo "Aguardando backend..."
+    echo "Verificando se modo desenvolvimento está ativo..."
     until curl -s http://localhost:$BACKEND_PORT >/dev/null
     do
         sleep 1
@@ -163,3 +163,5 @@ chromium \
 "$FRONTEND_URL" &
 
 echo "Sistema iniciado com sucesso"
+
+wait
