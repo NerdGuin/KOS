@@ -130,10 +130,18 @@ else
 
     cd "$FRONTEND_DIR"
 
-    echo "Instalando dependências..."
-    npm install >/dev/null 2>&1
-    npm install --save-dev @types/three >/dev/null 2>&1
-    npm install -g serve >/dev/null 2>&1
+    if [ ! -d "node_modules" ]; then
+        echo "Instalando dependências (primeira vez)..."
+        npm install >/dev/null 2>&1
+    fi
+    if [ ! -d "node_modules/@types/three" ]; then
+        echo "Instalando @types/three..."
+        npm install --save-dev @types/three >/dev/null 2>&1
+    fi
+    if ! command -v serve >/dev/null 2>&1; then
+        echo "Instalando serve global..."
+        npm install -g serve >/dev/null 2>&1
+    fi
     
 
     echo "Buildando frontend..."
