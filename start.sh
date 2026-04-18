@@ -127,13 +127,6 @@ sleep 2
 
 echo "Iniciando Chromium..."
 
-chromium \
---kiosk \
---no-sandbox \
---disable-infobars \
---disable-session-crashed-bubble \
---disable-translate \
---overscroll-history-navigation=0 \
-"$FRONTEND_URL" &
+chromium --kiosk --no-sandbox --disable-infobars --disable-session-crashed-bubble --disable-translate --overscroll-history-navigation=0 "$FRONTEND_URL" &
 
 echo "Sistema iniciado 🚀"
