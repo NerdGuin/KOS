@@ -74,8 +74,7 @@ else
 
     if [ "$LOCAL" != "$REMOTE" ]; then
         echo "Atualizando projeto..."
-        git reset --hard
-        git pull
+        git pull --rebase
     else
         echo "Projeto atualizado"
     fi
