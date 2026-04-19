@@ -59,6 +59,48 @@ export default function SystemPage() {
           </label>
         </div>
       </div>
+
+      <div className="setting-group">
+        <div className="group-title">Modo Desenvolvedor</div>
+        <div className="setting-row">
+          <div className="setting-info">
+            <span className="setting-label">Utilizar interface remota</span>
+            <span className="setting-desc"></span>
+          </div>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={configs.interfaceRemote}
+              onChange={(e) =>
+                setConfigs((prev) => ({
+                  ...prev,
+                  interfaceRemote: e.target.checked,
+                }))
+              }
+            />
+            <span className="slider"></span>
+          </label>
+        </div>
+        <div className="setting-row">
+          <div className="setting-info">
+            <span className="setting-label">Utilizar servidor remoto</span>
+            <span className="setting-desc"></span>
+          </div>
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={configs.serverRemote}
+              onChange={(e) =>
+                setConfigs((prev) => ({
+                  ...prev,
+                  serverRemote: e.target.checked,
+                }))
+              }
+            />
+            <span className="slider"></span>
+          </label>
+        </div>
+      </div>
     </main>
   )
 }

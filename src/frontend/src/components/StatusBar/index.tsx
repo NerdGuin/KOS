@@ -10,25 +10,29 @@ export default function StatusBar() {
   const [wireless, setWireless] = useState(null)
 
   useEffect(() => {
-    const update = async () => {
+    const interval = setInterval(() => {
       const now = new Date()
       setTime(
-        now.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })
+        String(now.getHours()).padStart(2, '0') +
+          ':' +
+          String(now.getMinutes()).padStart(2, '0')
       )
+    }, 1000)
 
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const updateNetwork = async () => {
       try {
         const res = await fetch(`${BACKEND_URL}/api/system/wireless`)
         const data = await res.json()
-
         setWireless(data)
-      } catch (err) {}
+      } catch {}
     }
 
-    update()
-    const interval = setInterval(update, 1000)
+    updateNetwork()
+    const interval = setInterval(updateNetwork, 5000)
 
     return () => clearInterval(interval)
   }, [])

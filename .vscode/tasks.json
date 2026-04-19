@@ -26,7 +26,7 @@
     {
       "label": "browser",
       "type": "shell",
-      "command": "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --kiosk http://localhost:5173"
+      "command": "\"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --kiosk http://localhost:5173",
     },
     {
       "label": "start-all",

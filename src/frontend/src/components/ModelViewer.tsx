@@ -9,7 +9,6 @@ export default function ModelViewer() {
   useEffect(() => {
     if (!mountRef.current) return
 
-    // 🔥 limpa antes de tudo (anti-StrictMode)
     mountRef.current.replaceChildren()
 
     const scene = new THREE.Scene()

@@ -11,4 +11,8 @@ export const configs = {
   // STATUS BAR
   clockPosition: 'right', // 'right', 'center'
   devBadge: true,
+
+  // DEVELOPER MODE
+  interfaceRemote: false,
+  serverRemote: false,
 }
