@@ -1,7 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
 import { useConfig } from '../../context/ConfigContext'
-import { BACKEND_URL } from '../../config/apps'
 
 export default function StatusBar() {
   const { configs } = useConfig()
@@ -25,7 +24,7 @@ export default function StatusBar() {
   useEffect(() => {
     const updateNetwork = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/api/system/wireless`)
+        const res = await fetch(`${configs.serverRemote}/api/system/wireless`)
         const data = await res.json()
         setWireless(data)
       } catch {}

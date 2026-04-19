@@ -13,7 +13,7 @@ BACKEND_PORT=8000
 FRONTEND_PORT=5000
 GIT_REPO="https://github.com/NerdGuin/KOS.git"
 
-REMOTE_FRONTEND="http://192.168.1.6:5173"
+REMOTE_FRONTEND="http://192.168.1.201:5173"
 LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 
 export PATH=/usr/local/bin:/usr/bin:/bin:$PATH

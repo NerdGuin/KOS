@@ -210,9 +210,12 @@
   background-color: var(--accent-color);
   box-shadow: 0 0 15px var(--accent-glow);
 }
-
 .switch input:checked + .slider:before {
   transform: translateX(26px);
+}
+.switch input:disabled + .slider {
+  background-color: #ccc;
+  box-shadow: none;
 }
 
 /* Range Slider for Brightness */

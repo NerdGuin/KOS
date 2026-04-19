@@ -39,6 +39,7 @@ export default function ScreenPage() {
           </div>
           <label className="switch">
             <input
+              disabled
               type="checkbox"
               checked={configs.brightnessAuto}
               onChange={(e) =>
@@ -57,6 +58,7 @@ export default function ScreenPage() {
           </div>
           <label className="switch">
             <input
+              disabled
               type="checkbox"
               checked={configs.nightMode}
               onChange={(e) =>

@@ -65,10 +65,11 @@ export default function SystemPage() {
         <div className="setting-row">
           <div className="setting-info">
             <span className="setting-label">Utilizar interface remota</span>
-            <span className="setting-desc"></span>
+            <span className="setting-desc">Utiliza a interface remota</span>
           </div>
           <label className="switch">
             <input
+              disabled
               type="checkbox"
               checked={configs.interfaceRemote}
               onChange={(e) =>
@@ -84,16 +85,21 @@ export default function SystemPage() {
         <div className="setting-row">
           <div className="setting-info">
             <span className="setting-label">Utilizar servidor remoto</span>
-            <span className="setting-desc"></span>
+            <span className="setting-desc">
+              Redireciona as requisições da interface para um servidor remoto
+            </span>
           </div>
           <label className="switch">
             <input
+              disabled
               type="checkbox"
-              checked={configs.serverRemote}
+              checked={configs.serverRemote === 'http://192.168.1.201:8000'}
               onChange={(e) =>
                 setConfigs((prev) => ({
                   ...prev,
-                  serverRemote: e.target.checked,
+                  serverRemote: e.target.checked
+                    ? 'http://192.168.1.201:8000'
+                    : 'http://192.168.1.200:8000',
                 }))
               }
             />

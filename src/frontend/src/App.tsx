@@ -11,7 +11,8 @@ import CamerasApplication from './applications/cameras'
 import VehicleApplication from './applications/vehicle'
 
 import { appManager } from './core/appManager'
-import { BACKEND_URL, localApps } from './config/apps'
+import { localApps } from './config/apps'
+import { useConfig } from './context/ConfigContext'
 
 interface AppItem {
   icon: string
@@ -92,6 +93,7 @@ function App() {
   const [activePage, setActivePage] = useState<string | null>(null)
   const [openPages, setOpenPages] = useState<AppItem[]>([])
   const [slideIndex, setSlideIndex] = useState(0)
+  const { configs } = useConfig()
 
   const favoriteApps = useMemo(() => APPS.filter((a) => a.favorite), [])
   const otherApps = useMemo(() => APPS.filter((a) => !a.favorite), [])
@@ -112,7 +114,7 @@ function App() {
       return
     }
 
-    fetch(`${BACKEND_URL}/open/${app.window}`)
+    fetch(`${configs.serverRemote}/open/${app.window}`)
       .then((res) => res.json())
       .then(() => appManager.open({ app: app.window } as any))
       .catch(console.error)
