@@ -27,9 +27,9 @@ def wireless():
 def wireless_list():
     return scan_wifi_networks()
 
-@app.get("/camera/{cam_id}")
-def cameras(cam_id: int):
-    return camera_stream(cam_id)
+@app.get("/camera/0")
+def camera():
+    return camera_stream()
 
 
 @app.get("/open/{package}")
