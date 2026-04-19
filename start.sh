@@ -87,7 +87,7 @@ fi
 VENV_PY="$VENV_DIR/bin/python"
 VENV_PIP="$VENV_DIR/bin/pip"
 
-echo "[BACKEND] Atualizando pip..."
+echo "[BACKEND] Verificando dependências..."
 $VENV_PIP install --upgrade pip >/dev/null 2>&1
 
 install_if_missing() {
@@ -98,7 +98,6 @@ install_if_missing() {
     fi
 }
 
-echo "[BACKEND] Verificando dependências..."
 install_if_missing fastapi
 install_if_missing uvicorn
 install_if_missing requests
