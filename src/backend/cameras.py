@@ -2,7 +2,7 @@ from fastapi.responses import StreamingResponse
 import cv2
 
 def gen_camera(index="/dev/video0"):
-    cap = cv2.VideoCapture(index)
+    cap = cv2.VideoCapture(index, cv2.CAP_V4L2)
 
     if not cap.isOpened():
         raise RuntimeError("Não foi possível acessar a câmera")
