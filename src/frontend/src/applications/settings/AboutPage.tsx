@@ -9,7 +9,7 @@ export default function AboutPage() {
           Sobre
         </div>
         <div className="detail-subtitle">
-          Informações sobre o sistema e versão
+          Informações sobre o sistema e componentes
         </div>
       </div>
 

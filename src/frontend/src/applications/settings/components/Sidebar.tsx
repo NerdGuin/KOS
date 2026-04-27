@@ -1,5 +1,4 @@
 import type { Page } from '../index'
-import lang from '../../../assets/langs/br.json'
 
 interface SidebarProps {
   activePage: Page
@@ -27,12 +26,12 @@ export default function Sidebar({ activePage, setActivePage }: SidebarProps) {
         onClick={() => setActivePage('screen')}
       >
         <i className="ri-sun-line"></i>
-        <span>{lang.screen_brightness}</span>
+        <span>Tela & Brilho</span>
       </div>
 
       <div className="nav-item">
         <i className="ri-equalizer-line"></i>
-        <span>{lang.audio_settings}</span>
+        <span>Config. de Áudio</span>
       </div>
 
       <div
@@ -40,7 +39,7 @@ export default function Sidebar({ activePage, setActivePage }: SidebarProps) {
         onClick={() => setActivePage('system')}
       >
         <i className="ri-settings-4-line"></i>
-        <span>{lang.system}</span>
+        <span>Sistema</span>
       </div>
 
       <div
@@ -48,7 +47,7 @@ export default function Sidebar({ activePage, setActivePage }: SidebarProps) {
         onClick={() => setActivePage('about')}
       >
         <i className="ri-information-line"></i>
-        <span>{lang.about}</span>
+        <span>Sobre</span>
       </div>
     </nav>
   )

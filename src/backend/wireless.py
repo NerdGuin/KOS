@@ -87,6 +87,7 @@ def scan_wifi_networks():
         return networks
 
     try:
+        subprocess.run(["nmcli", "device", "wifi", "rescan"], stdout=subprocess.DEVNULL)
         output = subprocess.check_output(
             ["nmcli", "-t", "-f", "IN-USE,SSID,SIGNAL,SECURITY", "device", "wifi", "list"],
             text=True

@@ -1,1 +1,1 @@
-export const localApps = ['settings', 'cameras', 'vehicle'] as const
+export const localApps = ['settings', 'cameras', 'vehicle', 'radio'] as const

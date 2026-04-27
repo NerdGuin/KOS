@@ -1,12 +1,12 @@
 // import ModelViewer from '../../components/ModelViewer'
 import './index.css'
 
-interface SettingsWindowProps {
+interface VehicleWindowProps {
   onClose: () => void
   visible: boolean
 }
 
-export default function SettingsWindow({ visible }: SettingsWindowProps) {
+export default function VehicleWindow({ visible }: VehicleWindowProps) {
   return (
     <div
       className="vehicle-container"

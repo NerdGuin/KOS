@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard'
 import SettingsWindow from './applications/settings'
 import CamerasApplication from './applications/cameras'
 import VehicleApplication from './applications/vehicle'
+import RadioApplication from './applications/radio'
 
 import { appManager } from './core/appManager'
 import { localApps } from './config/apps'
@@ -22,7 +23,6 @@ interface AppItem {
   window?: string
 }
 
-/* 🔥 apps fora do componente */
 const APPS: AppItem[] = [
   {
     icon: 'ri-map-pin-2-fill',
@@ -126,11 +126,7 @@ function App() {
   ) => {
     if (action === 'back') return setActivePage(null)
 
-    if (action === 'close') {
-      setOpenPages((prev) => prev.filter((p) => p.window !== target))
-      if (activePage === target) setActivePage(null)
-      return
-    }
+    if (action === 'close') return handleCloseApp(target)
 
     if (action === 'open') return setActivePage(target)
 
@@ -148,11 +144,21 @@ function App() {
 
   const currentPage = activePage ?? (slideIndex === 1 ? 'apps' : 'home')
 
-  const appWindows = [
-    { key: 'settings', component: SettingsWindow },
-    { key: 'cameras', component: CamerasApplication },
-    { key: 'vehicle', component: VehicleApplication },
-  ]
+  const appComponents: Record<
+    string,
+    React.ComponentType<{ visible: boolean; onClose: () => void }>
+  > = {
+    settings: SettingsWindow,
+    cameras: CamerasApplication,
+    vehicle: VehicleApplication,
+    radio: RadioApplication,
+  }
+
+  const handleCloseApp = (windowName: string) => {
+    setOpenPages((prev) => prev.filter((p) => p.window !== windowName))
+    if (activePage === windowName) setActivePage(null)
+    appManager.close()
+  }
 
   return (
     <>
@@ -170,13 +176,19 @@ function App() {
         </div>
       )}
 
-      {appWindows.map(({ key, component: Component }) => (
-        <Component
-          key={key}
-          visible={activePage === key}
-          onClose={() => setActivePage(null)}
-        />
-      ))}
+      {openPages.map((app) => {
+        if (!app.window) return null
+        const Component = appComponents[app.window]
+        if (!Component) return null
+
+        return (
+          <Component
+            key={app.window}
+            visible={activePage === app.window}
+            onClose={() => handleCloseApp(app.window as string)}
+          />
+        )
+      })}
 
       <NavigationBar
         active={currentPage}
