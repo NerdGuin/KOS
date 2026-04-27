@@ -32,7 +32,7 @@ export default function WifiPage() {
     }
 
     updateNetwork()
-    const interval = setInterval(updateNetwork, 5000)
+    const interval = setInterval(updateNetwork, 3000)
 
     return () => clearInterval(interval)
   }, [configs.serverRemote])
@@ -59,9 +59,7 @@ export default function WifiPage() {
 
         {networks.length === 0 ? (
           <div className="setting-row">
-            <div className="setting-info">
-              <span className="setting-label">Nenhuma rede encontrada</span>
-            </div>
+            <span className="setting-label">Nenhuma rede encontrada</span>
           </div>
         ) : (
           networks.map((network) => (

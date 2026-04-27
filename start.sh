@@ -159,13 +159,22 @@ echo "[KIOSK] Iniciando Chromium..."
 
 chromium \
 --kiosk \
+--disable-gpu \
+--disable-software-rasterizer \
+--disable-gpu-compositing \
+--disable-gpu-memory-buffer-video-frames \
+--disable-accelerated-2d-canvas \
+--disable-accelerated-video-decode \
+--disable-accelerated-video-encode \
+--use-gl=swiftshader \
+--no-sandbox \
+--disable-dev-shm-usage \
 --start-fullscreen \
 --no-first-run \
 --disable-infobars \
 --disable-session-crashed-bubble \
 --disable-translate \
 --overscroll-history-navigation=0 \
---enable-zero-copy \
 "$FRONTEND_URL" &
 
 echo "[KIOSK] Sistema iniciado com sucesso"
