@@ -106,7 +106,8 @@ install_if_missing opencv-python
 echo "[BACKEND] Iniciando..."
 $VENV_PY -m uvicorn main:app \
 --host 0.0.0.0 \
---port $BACKEND_PORT &
+--port $BACKEND_PORT \
+--no-access-log &
 
 
 # --------------------------------------

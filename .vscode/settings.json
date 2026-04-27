@@ -12,5 +12,6 @@
         "src/backend/venv": true,
         "src/backend/__pycache__": true,
         "src/frontend/.gitignore": true,
-    }
+    },
+    "gitdoc.enabled": false
 }
