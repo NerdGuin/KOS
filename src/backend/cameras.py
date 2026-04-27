@@ -12,30 +12,61 @@ HEIGHT = 320
 FPS = 25
 
 # ================================
-# CAMERA GLOBAL
+# ESTADO GLOBAL
 # ================================
-cap = cv2.VideoCapture(DEVICE, cv2.CAP_V4L2)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
-
-if not cap.isOpened():
-    raise RuntimeError("Não foi possível acessar a câmera")
-
+cap = None
 frame = None
 lock = threading.Lock()
+camera_available = False
 
 # ================================
-# THREAD DE CAPTURA (RODA UMA VEZ SÓ)
+# INIT CAMERA (SAFE)
+# ================================
+def init_camera():
+    global cap, camera_available
+
+    # já está funcionando
+    if cap is not None and cap.isOpened():
+        return True
+
+    cap = cv2.VideoCapture(DEVICE, cv2.CAP_V4L2)
+
+    if not cap.isOpened():
+        cap = None
+        camera_available = False
+        return False
+
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
+
+    camera_available = True
+    print("📷 Câmera conectada")
+    return True
+
+
+# ================================
+# THREAD DE CAPTURA
 # ================================
 def capture_loop():
-    global frame
+    global frame, camera_available, cap
 
     while True:
+        if not init_camera():
+            print("⚠️ Câmera não disponível, tentando novamente...")
+            time.sleep(2)
+            continue
+
         ret, img = cap.read()
 
         if not ret:
-            # evita travar se perder sinal
-            time.sleep(0.01)
+            print("⚠️ Falha ao ler câmera")
+            camera_available = False
+
+            if cap:
+                cap.release()
+                cap = None
+
+            time.sleep(1)
             continue
 
         with lock:
@@ -43,7 +74,13 @@ def capture_loop():
 
         time.sleep(1 / FPS)
 
-threading.Thread(target=capture_loop, daemon=True).start()
+
+# ================================
+# START THREAD (chamar no FastAPI)
+# ================================
+def start_camera():
+    threading.Thread(target=capture_loop, daemon=True).start()
+
 
 # ================================
 # STREAM MJPEG
@@ -52,11 +89,11 @@ def gen_camera():
     global frame
 
     while True:
-        try:
-            if frame is None:
-                time.sleep(0.01)
-                continue
+        if frame is None:
+            time.sleep(0.1)
+            continue
 
+        try:
             with lock:
                 ret, buffer = cv2.imencode('.jpg', frame)
 
@@ -78,19 +115,23 @@ def gen_camera():
 
 
 def camera_stream():
+    if not camera_available:
+        return Response("Camera offline", status_code=503)
+
     return StreamingResponse(
         gen_camera(),
         media_type='multipart/x-mixed-replace; boundary=frame'
     )
 
+
 # ================================
-# SNAPSHOT (ALTERNATIVA MAIS ESTÁVEL)
+# SNAPSHOT
 # ================================
 def camera_snapshot():
     global frame
 
-    if frame is None:
-        return Response(status_code=503)
+    if not camera_available or frame is None:
+        return Response("Camera offline", status_code=503)
 
     with lock:
         ret, buffer = cv2.imencode('.jpg', frame)
@@ -99,3 +140,6 @@ def camera_snapshot():
         return Response(status_code=500)
 
     return Response(buffer.tobytes(), media_type="image/jpeg")
+
+
+init_camera()
