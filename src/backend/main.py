@@ -41,30 +41,49 @@ def camera():
     return camera_stream()
 
 
-def activate_window(title: str):
+def activate_window(title: str, pid: int = None):
     if not sys.platform.startswith("linux"):
         return
 
+    windows = []
     try:
-        output = subprocess.check_output([
-            "xdotool",
-            "search",
-            "--name",
-            title,
-        ])
-        window_ids = [line.strip() for line in output.decode().splitlines() if line.strip()]
-        if not window_ids:
-            return
-
-        window_id = window_ids[0]
-        subprocess.call(["xdotool", "windowmap", window_id])
-        subprocess.call(["xdotool", "windowraise", window_id])
-        subprocess.call(["xdotool", "windowfocus", window_id])
-        subprocess.call(["xdotool", "windowactivate", window_id])
+        if pid is not None:
+            output = subprocess.check_output([
+                "xdotool",
+                "search",
+                "--pid",
+                str(pid),
+            ])
+            windows = [line.strip() for line in output.decode().splitlines() if line.strip()]
     except subprocess.CalledProcessError:
-        pass
-    except Exception:
-        pass
+        windows = []
+
+    if not windows:
+        try:
+            output = subprocess.check_output([
+                "xdotool",
+                "search",
+                "--name",
+                title,
+            ])
+            windows = [line.strip() for line in output.decode().splitlines() if line.strip()]
+        except subprocess.CalledProcessError:
+            windows = []
+
+    if not windows:
+        return
+
+    window_id = windows[0]
+    for cmd in [
+        ["xdotool", "windowmap", window_id],
+        ["xdotool", "windowraise", window_id],
+        ["xdotool", "windowfocus", window_id],
+        ["xdotool", "windowactivate", window_id],
+    ]:
+        try:
+            subprocess.call(cmd)
+        except Exception:
+            pass
 
 
 @app.get("/open/{package}")
@@ -75,7 +94,7 @@ def open_app(package: str):
 
     process = open_apps.get(package)
     if process and process.poll() is None:
-        activate_window(config["title"])
+        activate_window(config["title"], process.pid)
         return {"status": "opened", "reused": True}
 
     try:
@@ -90,7 +109,7 @@ def open_app(package: str):
         ])
         open_apps[package] = process
         time.sleep(1)
-        activate_window(config["title"])
+        activate_window(config["title"], process.pid)
         return {"status": "opened"}
     except Exception as e:
         return {"status": "error", "error": str(e)}
