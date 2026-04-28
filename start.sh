@@ -23,6 +23,7 @@ LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 export XDG_RUNTIME_DIR=/run/user/1000
 export WAYLAND_DISPLAY=wayland-0
 export DISPLAY=:0
+export PULSE_SERVER=unix:/run/user/1001/pulse/native
 
 sleep 1
 
