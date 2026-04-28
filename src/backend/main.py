@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import time
 import sys
 import requests
+import subprocess
 
 from wireless import get_wireless_status, scan_wifi_networks
 from cameras import camera_stream
@@ -34,10 +35,17 @@ def camera():
 
 @app.get("/open/{package}")
 def open_app(package: str):
-    if sys.platform.startswith("linux"):
-        return {"status": "opened", "app": package, "mode": 'mobile'}
-    else:
-        return {"status": "opened", "app": package, "mode": 'mobile'}
+    # if sys.platform.startswith("linux"):
+    #     return {"status": "opened", "app": package, "mode": "mobile"}
+    # else:
+        try:
+            subprocess.Popen([
+                "chromium",
+                "--app=https://youtube.com"
+            ])
+            return {"status": "opened", "app": package, "mode": "desktop"}
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
 
 
 

@@ -114,9 +114,17 @@ function App() {
       return
     }
 
+    // fetch(`${configs.serverRemote}/open/${app.window}`)
+    //   .then((res) => res.json())
+    //   .then(() => appManager.open({ app: app.window } as any))
+    //   .catch(console.error)
+
     fetch(`${configs.serverRemote}/open/${app.window}`)
       .then((res) => res.json())
-      .then(() => appManager.open({ app: app.window } as any))
+      .then((res) => {
+        alert(res.error)
+        console.log(res)
+      })
       .catch(console.error)
   }
 

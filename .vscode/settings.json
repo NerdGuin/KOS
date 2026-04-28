@@ -3,6 +3,7 @@
         ".vscode": true,
         ".gitignore": true,
         ".bash_profile": true,
+        "weston.ini": true,
         ".prettier*": true,
         "src/frontend/tsconfig*": true,
         "src/frontend/eslint*": true,
