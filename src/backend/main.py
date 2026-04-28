@@ -39,6 +39,8 @@ def open_app(package: str):
         subprocess.Popen([
             "chromium",
             "--app=https://youtube.com",
+            "--user-data-dir=/tmp/chromium-app",
+            "--new-window",
             "--window-size=1024,500",
             "--window-position=0,0"
         ])
