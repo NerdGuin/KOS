@@ -147,6 +147,12 @@ function App() {
 
     if (action === 'open') {
       if (activePage === target) return setActivePage(null)
+
+      const app = APPS.find((item) => item.window === target)
+      if (app && !localApps.includes(target as any)) {
+        return openApp(app)
+      }
+
       return setActivePage(target)
     }
 
@@ -161,6 +167,9 @@ function App() {
       setActivePage(null)
     }
   }
+
+  const isRemoteAppActive =
+    activePage !== null && !localApps.includes(activePage as any)
 
   const currentPage = activePage ?? (slideIndex === 1 ? 'apps' : 'home')
 
@@ -192,14 +201,14 @@ function App() {
 
       <StatusBar />
 
-      {!activePage && (
+      {!activePage || isRemoteAppActive ? (
         <div className="container">
           <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
             <Dashboard apps={favoriteApps} onAppClick={openApp} />
             <Dashboard apps={otherApps} onAppClick={openApp} />
           </Carousel>
         </div>
-      )}
+      ) : null}
 
       {openPages.map((app) => {
         if (!app.window) return null

@@ -42,14 +42,29 @@ def camera():
 
 
 def activate_window(title: str):
-    if sys.platform.startswith("linux"):
-        subprocess.call([
+    if not sys.platform.startswith("linux"):
+        return
+
+    try:
+        output = subprocess.check_output([
             "xdotool",
             "search",
             "--name",
             title,
-            "windowactivate"
         ])
+        window_ids = output.decode().strip().splitlines()
+        if not window_ids:
+            return
+
+        subprocess.call([
+            "xdotool",
+            "windowactivate",
+            window_ids[0],
+        ])
+    except subprocess.CalledProcessError:
+        pass
+    except Exception:
+        pass
 
 
 @app.get("/open/{package}")
