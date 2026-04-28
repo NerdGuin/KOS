@@ -100,10 +100,6 @@ export default function RadioWindow({ visible }: RadioWindowProps) {
     changeStation(stationIndex + 1)
   }
 
-  const handleSelect = (station: RadioStation) => {
-    changeStation(stations.findIndex((item) => item.id === station.id))
-  }
-
   return (
     <div
       className="radio-container"
