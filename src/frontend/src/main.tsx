@@ -4,7 +4,7 @@ import { ConfigProvider } from './context/ConfigContext'
 import App from './App'
 
 export const appData = {
-  version: '0.25',
+  version: '0.26',
   appOpened: null as { app: string; time: number } | null,
 }
 
