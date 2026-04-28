@@ -42,16 +42,8 @@ def open_app(package: str):
             "--new-window",
             "--user-data-dir=/tmp/chromium-app",
             "--window-size=1024,500",
-            "--window-position=0,0"
-        ])
-
-        time.sleep(1)
-
-        # força posição + tamanho (caso o WM ignore)
-        subprocess.call([
-            "wmctrl",
-            "-r", "YouTube",
-            "-e", "0,0,0,1024,500"
+            "--window-position=0,0",
+            "--disable-infobars"
         ])
 
         return {"status": "opened"}
