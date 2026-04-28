@@ -6,6 +6,7 @@ import subprocess
 
 from wireless import get_wireless_status, scan_wifi_networks
 from cameras import camera_stream
+from radio import router as radio_router
 
 app = FastAPI()
 
@@ -24,6 +25,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(radio_router)
 
 
 # ---- API GERAL ----
