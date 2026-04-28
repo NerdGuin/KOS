@@ -35,17 +35,16 @@ def camera():
 
 @app.get("/open/{package}")
 def open_app(package: str):
-    # if sys.platform.startswith("linux"):
-    #     return {"status": "opened", "app": package, "mode": "mobile"}
-    # else:
-        try:
-            subprocess.Popen([
-                "chromium",
-                "--app=https://youtube.com"
-            ])
-            return {"status": "opened", "app": package, "mode": "desktop"}
-        except Exception as e:
-            return {"status": "error", "error": str(e)}
+    try:
+        subprocess.Popen([
+            "chromium",
+            "--app=https://youtube.com",
+            "--window-size=1024,500",
+            "--window-position=0,0"
+        ])
+        return {"status": "opened", "app": package, "mode": "desktop"}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
 
 
 
