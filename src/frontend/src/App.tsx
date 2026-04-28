@@ -99,33 +99,42 @@ function App() {
   const otherApps = useMemo(() => APPS.filter((a) => !a.favorite), [])
 
   const openApp = (app: AppItem) => {
-    if (!app.window) return
+    const windowName = app.window
+    if (!windowName) return
 
-    const isLocal = localApps.includes(app.window as any)
+    const isLocal = localApps.includes(windowName as any)
 
     if (isLocal) {
       setOpenPages((prev) => {
-        if (prev.some((p) => p.window === app.window)) return prev
+        if (prev.some((p) => p.window === windowName)) return prev
         return [...prev, app].slice(-5)
       })
 
-      appManager.open(app.window)
-      setActivePage(app.window)
+      appManager.open(windowName)
+      setActivePage(windowName)
       return
     }
 
-    // fetch(`${configs.serverRemote}/open/${app.window}`)
-    //   .then((res) => res.json())
-    //   .then(() => appManager.open({ app: app.window } as any))
-    //   .catch(console.error)
-
-    fetch(`${configs.serverRemote}/open/${app.window}`)
+    fetch(`${configs.serverRemote}/open/${windowName}`)
       .then((res) => res.json())
       .then((res) => {
-        alert(res.error)
-        console.log(res)
+        if (res.status !== 'opened') {
+          alert(res.error || 'Não foi possível abrir o app')
+          return
+        }
+
+        setOpenPages((prev) => {
+          if (prev.some((p) => p.window === windowName)) return prev
+          return [...prev, app].slice(-5)
+        })
+
+        appManager.open(windowName)
+        setActivePage(windowName)
       })
-      .catch(console.error)
+      .catch((error) => {
+        console.error(error)
+        alert('Erro ao abrir o app externo')
+      })
   }
 
   const handleNavClick = (
@@ -136,7 +145,10 @@ function App() {
 
     if (action === 'close') return handleCloseApp(target)
 
-    if (action === 'open') return setActivePage(target)
+    if (action === 'open') {
+      if (activePage === target) return setActivePage(null)
+      return setActivePage(target)
+    }
 
     if (target === 'apps') {
       setSlideIndex(1)
@@ -165,6 +177,11 @@ function App() {
   const handleCloseApp = (windowName: string) => {
     setOpenPages((prev) => prev.filter((p) => p.window !== windowName))
     if (activePage === windowName) setActivePage(null)
+
+    if (!localApps.includes(windowName as any)) {
+      fetch(`${configs.serverRemote}/close/${windowName}`).catch(console.error)
+    }
+
     appManager.close()
   }
 

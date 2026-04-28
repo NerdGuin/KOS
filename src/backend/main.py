@@ -1,14 +1,22 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import time
 import sys
-import requests
 import subprocess
 
 from wireless import get_wireless_status, scan_wifi_networks
 from cameras import camera_stream
 
 app = FastAPI()
+
+open_apps = {}
+app_configs = {
+    "youtube": {
+        "url": "https://youtube.com",
+        "title": "YouTube",
+        "user_data_dir": "/tmp/chromium-app-youtube",
+    }
+}
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,27 +41,41 @@ def camera():
     return camera_stream()
 
 
-@app.get("/open/{package}")
-def open_app(package: str):
-    try:
-        subprocess.Popen([
-            "chromium",
-            "--app=https://youtube.com",
-            "--new-window",
-            "--user-data-dir=/tmp/chromium-app",
-            "--window-size=1024,500",
-            "--window-position=0,0",
-            "--disable-infobars"
-        ])
-
-        time.sleep(1)
-
+def activate_window(title: str):
+    if sys.platform.startswith("linux"):
         subprocess.call([
             "xdotool",
-            "search", "--name", "YouTube",
+            "search",
+            "--name",
+            title,
             "windowactivate"
         ])
 
+
+@app.get("/open/{package}")
+def open_app(package: str):
+    config = app_configs.get(package)
+    if not config:
+        return {"status": "error", "error": "App desconhecido"}
+
+    process = open_apps.get(package)
+    if process and process.poll() is None:
+        activate_window(config["title"])
+        return {"status": "opened", "reused": True}
+
+    try:
+        process = subprocess.Popen([
+            "chromium",
+            f"--app={config['url']}",
+            "--new-window",
+            f"--user-data-dir={config['user_data_dir']}",
+            "--window-size=1024,500",
+            "--window-position=-5,-22",
+            "--disable-infobars"
+        ])
+        open_apps[package] = process
+        time.sleep(1)
+        activate_window(config["title"])
         return {"status": "opened"}
     except Exception as e:
         return {"status": "error", "error": str(e)}
@@ -62,7 +84,11 @@ def open_app(package: str):
 
 @app.get("/close/{package}")
 def close_app(package: str):
-    if sys.platform.startswith("linux"):
-        return {"status": "closed", "app": package}
-    else:
-        return {"status": "closed", "app": package}
+    process = open_apps.pop(package, None)
+    if process and process.poll() is None:
+        try:
+            process.terminate()
+            process.wait(timeout=3)
+        except Exception:
+            process.kill()
+    return {"status": "closed", "app": package}
