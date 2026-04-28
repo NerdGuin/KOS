@@ -172,18 +172,26 @@ export default function RadioWindow({ visible }: RadioWindowProps) {
           <div className="song-info">
             <div className="song-title">
               {loading
-                ? 'Carregando estações...'
+                ? ''
                 : (currentStation?.name ?? 'Sem estação')}
-              <div className="artist-name">
+              {/* <div className="artist-name">
                 {currentStation
                   ? `${currentStation.description}`
                   : 'Aguardando…'}
-              </div>
+              </div> */}
             </div>
           </div>
 
           {error ? <div className="radio-error">{error}</div> : null}
         </div>
+      </div>
+      <div className="volume-container glass">
+        <i className="ri-volume-up-line volume-icon"></i>
+        <div className="volume-slider-wrapper">
+          <div className="volume-fill"></div>
+          <div className="volume-thumb"></div>
+        </div>
+        <i className="ri-volume-down-line volume-icon"></i>
       </div>
     </div>
   )
