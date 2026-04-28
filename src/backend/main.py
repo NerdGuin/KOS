@@ -46,6 +46,14 @@ def open_app(package: str):
             "--disable-infobars"
         ])
 
+        time.sleep(1)
+
+        subprocess.call([
+            "xdotool",
+            "search", "--name", "YouTube",
+            "windowactivate"
+        ])
+
         return {"status": "opened"}
     except Exception as e:
         return {"status": "error", "error": str(e)}
