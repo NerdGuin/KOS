@@ -14,5 +14,5 @@ export const configs = {
 
   // DEVELOPER MODE
   interfaceRemote: false,
-  serverRemote: 'http://127.0.0.1:8000',
+  serverRemote: 'http://192.168.1.200:8000',
 }

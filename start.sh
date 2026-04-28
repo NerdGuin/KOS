@@ -16,11 +16,15 @@ GIT_REPO="https://github.com/NerdGuin/KOS.git"
 REMOTE_FRONTEND="http://192.168.1.201:5173"
 LOCAL_FRONTEND="http://localhost:$FRONTEND_PORT"
 
-export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
-export DISPLAY=$(who | grep '(:' | awk '{print $NF}' | tr -d '()')
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
+# export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
+# export DISPLAY=$(who | grep '(:' | awk '{print $NF}' | tr -d '()')
+# export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
-sleep 5
+export XDG_RUNTIME_DIR=/run/user/1000
+export WAYLAND_DISPLAY=wayland-0
+export DISPLAY=:0
+
+sleep 1
 
 # --------------------------------------
 # FUNÇÕES
@@ -163,7 +167,7 @@ chromium \
 --use-gl=egl \
 --enable-gpu-rasterization \
 --ignore-gpu-blocklist \
-"$FRONTEND_URL" &
+--app="$FRONTEND_URL" &
 
 echo "[KIOSK] Sistema iniciado com sucesso"
 
