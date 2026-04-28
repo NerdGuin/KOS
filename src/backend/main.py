@@ -39,12 +39,22 @@ def open_app(package: str):
         subprocess.Popen([
             "chromium",
             "--app=https://youtube.com",
-            "--user-data-dir=/tmp/chromium-app",
             "--new-window",
+            "--user-data-dir=/tmp/chromium-app",
             "--window-size=1024,500",
             "--window-position=0,0"
         ])
-        return {"status": "opened", "app": package, "mode": "desktop"}
+
+        time.sleep(1)
+
+        # força posição + tamanho (caso o WM ignore)
+        subprocess.call([
+            "wmctrl",
+            "-r", "YouTube",
+            "-e", "0,0,0,1024,500"
+        ])
+
+        return {"status": "opened"}
     except Exception as e:
         return {"status": "error", "error": str(e)}
 
