@@ -52,15 +52,15 @@ def activate_window(title: str):
             "--name",
             title,
         ])
-        window_ids = output.decode().strip().splitlines()
+        window_ids = [line.strip() for line in output.decode().splitlines() if line.strip()]
         if not window_ids:
             return
 
-        subprocess.call([
-            "xdotool",
-            "windowactivate",
-            window_ids[0],
-        ])
+        window_id = window_ids[0]
+        subprocess.call(["xdotool", "windowmap", window_id])
+        subprocess.call(["xdotool", "windowraise", window_id])
+        subprocess.call(["xdotool", "windowfocus", window_id])
+        subprocess.call(["xdotool", "windowactivate", window_id])
     except subprocess.CalledProcessError:
         pass
     except Exception:
