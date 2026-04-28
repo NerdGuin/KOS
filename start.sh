@@ -93,19 +93,19 @@ fi
 VENV_PY="$VENV_DIR/bin/python"
 VENV_PIP="$VENV_DIR/bin/pip"
 
-echo "[BACKEND] Verificando dependências..."
-$VENV_PIP install --upgrade pip >/dev/null 2>&1
+# echo "[BACKEND] Verificando dependências..."
+# $VENV_PIP install --upgrade pip >/dev/null 2>&1
 
-install_if_missing() {
-    PKG=$1
-    if ! $VENV_PIP show "$PKG" > /dev/null 2>&1; then
-        echo "[BACKEND] Instalando $PKG..."
-        $VENV_PIP install "$PKG" >/dev/null 2>&1
-    fi
-}
+# install_if_missing() {
+#     PKG=$1
+#     if ! $VENV_PIP show "$PKG" > /dev/null 2>&1; then
+#         echo "[BACKEND] Instalando $PKG..."
+#         $VENV_PIP install "$PKG" >/dev/null 2>&1
+#     fi
+# }
 
-echo "[BACKEND] Instalando dependências (se necessário)..."
-$VENV_PIP install fastapi uvicorn requests opencv-python >/dev/null 2>&1
+# echo "[BACKEND] Instalando dependências (se necessário)..."
+# $VENV_PIP install fastapi uvicorn requests opencv-python >/dev/null 2>&1
 
 echo "[BACKEND] Iniciando..."
 $VENV_PY -m uvicorn main:app \
