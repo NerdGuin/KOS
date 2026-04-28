@@ -168,9 +168,6 @@ function App() {
     }
   }
 
-  const isRemoteAppActive =
-    activePage !== null && !localApps.includes(activePage as any)
-
   const currentPage = activePage ?? (slideIndex === 1 ? 'apps' : 'home')
 
   const appComponents: Record<
@@ -201,7 +198,7 @@ function App() {
 
       <StatusBar />
 
-      {!activePage || isRemoteAppActive ? (
+      {!activePage ? (
         <div className="container">
           <Carousel currentIndex={slideIndex} onChangeIndex={setSlideIndex}>
             <Dashboard apps={favoriteApps} onAppClick={openApp} />
