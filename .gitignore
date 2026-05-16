@@ -1,0 +1,21 @@
+# Backend
+/src/backend/venv/
+/src/backend/__pycache__/
+
+
+# Frontend
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+out
+.DS_Store
+.eslintcache

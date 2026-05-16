@@ -1,0 +1,27 @@
+{
+    "files.exclude": {
+        ".vscode": true,
+        ".gitignore": true,
+        ".bash_profile": true,
+        "weston.ini": true,
+        ".prettier*": true,
+
+        "src/frontend/tsconfig*": true,
+        "src/frontend/eslint*": true,
+        "src/frontend/package*": true,
+        "src/frontend/vite*": true,
+        "src/frontend/node_modules": true,
+        "src/frontend/.vscode": true,
+        "src/frontend/build": true,
+        "src/frontend/out": true,
+        "src/frontend/.editorconfig": true,
+        "src/frontend/.prettierignore": true,
+        "src/frontend/.prettierrc.yaml": true,
+        "src/frontend/electron-builder.yml": true,
+        "src/frontend/electron.vite.config.ts": true,
+
+        "src/backend/venv": true,
+        "src/backend/__pycache__": true,
+    },
+    "gitdoc.enabled": false
+}

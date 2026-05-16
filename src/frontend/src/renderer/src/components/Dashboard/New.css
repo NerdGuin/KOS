@@ -1,0 +1,60 @@
+.app-icon-wrapper--new {
+  border-radius: 30px;
+  border: none;
+  backdrop-filter: unset;
+}
+.app-icon-wrapper--new::before {
+  display: none;
+}
+.app-label--new {
+  font-family: 'SFPro-Regular';
+  text-shadow: none;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 5px;
+  border-radius: 5px;
+  /* backdrop-filter: blur(5px); */
+}
+.app-icon--new {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  width: 100%;
+  height: 100%;
+  font-size: 90px;
+  text-shadow: none;
+}
+
+.app-icon--new.ri-map-pin-2-fill {
+  background: url('../../assets/icons/apps/maps.png') no-repeat center center /
+    100%;
+  font-size: 0;
+}
+.app-icon--new.ri-youtube-fill {
+  background: white;
+}
+.app-icon--new.ri-camera-fill {
+  background: url('../../assets/icons/apps/camera.png') no-repeat center
+    center / 100%;
+  font-size: 0;
+}
+.app-icon--new.ri-settings-4-fill {
+  background: url('../../assets/icons/apps/settings.png') no-repeat center
+    center / 100%;
+  font-size: 0;
+}
+.app-icon--new.ri-radio-2-fill {
+  background: url('../../assets/icons/apps/music.png') no-repeat center
+    center / 100%;
+  font-size: 0;
+}
+.app-icon--new.ri-sun-cloudy-fill {
+  background: url('../../assets/icons/apps/weather.png') no-repeat center
+    center / 100%;
+  font-size: 0;
+}
+.app-icon--new.ri-roadster-fill {
+  background: url('../../assets/icons/apps/vehicle.png') no-repeat center
+    center / 100%;
+  font-size: 0;
+}

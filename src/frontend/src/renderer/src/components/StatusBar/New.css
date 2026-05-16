@@ -1,0 +1,46 @@
+.wpp {
+  background: url('../../assets/wpp.jpg') no-repeat center center / cover;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+}
+
+.status-bar--new {
+  height: -webkit-fill-available;
+  width: 80px;
+
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.status-bar--new .time {
+  top: 10px;
+  font-size: 23px;
+  font-family: 'SFPro-Regular';
+}
+
+.status-bar--new .status-icons {
+  display: flex;
+  justify-content: center;
+}
+
+.cyber-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.status-bar--new .status-icons {
+  gap: 3px;
+}
+
+.status-bar--new .status-icons i {
+  font-size: 22px;
+  color: white;
+}
