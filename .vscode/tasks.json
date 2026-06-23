@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "server",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/src/server"
+      },
+      "presentation": {
+        "panel": "new"
+      }
+    },
+    {
+      "label": "client",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/src/client"
+      },
+      "presentation": {
+        "panel": "new"
+      }
+    },
+    {
+      "label": "start-all",
+      "dependsOn": [
+        "server",
+        "client"
+      ],
+      "dependsOrder": "parallel",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "repo-commit",
+      "type": "shell",
+      "command": "git checkout --orphan TEMP_BRANCH && git add -A && git commit -m \"KOS Official Repository\" && git branch -D main && git branch -m main && git push -f origin main",
+      "presentation": {
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "files.exclude": {
+    ".vscode": true,
+    ".gitignore": true,
+
+    "src/client/tsconfig*": true,
+    "src/client/eslint*": true,
+    "src/client/package*": true,
+    "src/server/package-lock*": true,
+    "src/client/vite*": true,
+    "src/client/node_modules": true,
+    "src/server/node_modules": true,
+    "src/client/.vscode": true,
+    "src/client/build": true,
+    "src/client/out": true,
+    "src/client/.editorconfig": true,
+    "src/client/.prettierignore": true,
+    "src/client/.prettierrc.yaml": true,
+    "src/client/electron-builder.yml": true,
+    "src/client/electron.vite.config.ts": true,
+  },
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "prettier.semi": false,
+  "gitdoc.enabled": false
+}

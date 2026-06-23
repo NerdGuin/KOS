@@ -1,0 +1,27 @@
+html[data-theme='new'] .carousel-wrapper {
+  padding-left: 60px;
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+  flex: 1;
+  height: auto;
+  display: flex;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.3s ease;
+  width: 100%;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
